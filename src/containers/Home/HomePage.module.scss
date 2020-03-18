@@ -1,0 +1,78 @@
+
+.Business {
+  background: url("../../assets/images/business.jpg") no-repeat fixed bottom center/cover;
+
+  .Overlay {
+    background: rgba(#fff, .9);
+
+    .Container {
+      padding-bottom: .5rem;
+    }
+
+    .Products {
+      padding-bottom: 4rem;
+    }
+  }
+}
+
+.Values {
+  background: url("../../assets/images/values.jpg") no-repeat fixed bottom center/cover;
+
+  .Overlay {
+    background: rgba(#000, .4);
+
+    .Title {
+      color: white;
+    }
+  }
+}
+
+.Management {
+  background: url("../../assets/images/management.jpg") no-repeat fixed bottom center/cover;
+
+  .Overlay {
+    background: rgba(#fff, .8);
+
+
+  }
+}
+
+.History {
+  color: white;
+  background: url("../../assets/images/history.jpg") no-repeat fixed bottom center/cover;
+
+  .Overlay {
+    background: rgba(#000, .2);
+    @media only screen and (min-width: 769px) {
+      height: 600px;
+    }
+  }
+
+  @media only screen and (min-width: 769px) {
+    height: 600px;
+  }
+}
+
+.LastLine {
+  .Container {
+    max-width: 800px;
+    padding-top: 4rem;
+  }
+}
+
+
+.Container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem 2rem;
+
+}
+
+.Title {
+  font-size: 2rem;
+  font-weight: 100;
+  font-family: 'Abril Fatface', cursive;
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}

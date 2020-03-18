@@ -1,0 +1,55 @@
+
+.Hero {
+  height: 150px;
+  background: lightslategrey;
+}
+
+.Container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px;
+
+  .FormSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    @media only screen and (min-width: 769px) {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+    }
+
+    .Outer {
+      padding: 15px
+    }
+
+    .Image {
+      //width: 100%;
+      padding: 10px;
+      height: 150px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @media only screen and (min-width: 769px) {
+        margin-top: 75px;
+        height: 225px;
+      }
+
+      img {
+        height: 100%;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .BtnGroup {
+        margin-top: 20px;
+      }
+    }
+  }
+
+}

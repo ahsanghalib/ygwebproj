@@ -1,0 +1,55 @@
+$height: calc(var(--vh, 1vh) * 100);
+
+.Hero {
+  height: $height;
+  overflow-y: hidden;
+
+  .Slider {
+
+    .InnerText {
+      background: rgba(#f68c1e, .9);
+      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+      text-transform: uppercase;
+      color: white;
+      font-size: 2rem;
+      top: calc(var(--vh, 1vh) * 70);
+      position: absolute;
+      left: 10%;
+      padding: 15px;
+
+      @media only screen and (min-width: 769px) {
+        font-size: 3rem;
+      }
+    }
+
+    .Item1 {
+      height: $height;
+      background: #f68c1e url("../../assets/images/passion.jpg") no-repeat fixed center/cover;
+      //background: #f68c1e;
+    }
+
+    .Item2 {
+      height: $height;
+      background: #f68c1e url("../../assets/images/explore.jpg") no-repeat fixed center/cover;
+      //background: #f68c1e;
+    }
+
+    .Item3 {
+      height: $height;
+      background: #f68c1e url("../../assets/images/discover.jpg") no-repeat fixed center/cover;
+      //background: #f68c1e;
+    }
+
+    .Item4 {
+      height: $height;
+      background: #f68c1e url("../../assets/images/create.jpg") no-repeat fixed center/cover;
+      //background: #f68c1e;
+    }
+
+    .Item5 {
+      height: $height;
+      background: #f68c1e url("../../assets/images/deliver.jpg") no-repeat fixed bottom center/cover;
+      //background: #f68c1e;
+    }
+  }
+}

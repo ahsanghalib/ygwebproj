@@ -1,0 +1,77 @@
+
+.FooterMain {
+  .FooterLine {
+    height: 3rem;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f68c1e+0,f47a00+100 */
+    background: rgb(246, 140, 30); /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, rgba(246, 140, 30, 1) 0%, rgba(244, 122, 0, 1) 100%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(246, 140, 30, 1) 0%, rgba(244, 122, 0, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center, rgba(246, 140, 30, 1) 0%, rgba(244, 122, 0, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f68c1e', endColorstr='#f47a00', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+
+  }
+
+  .Footer {
+    padding: 1rem;
+    background-color: #707070;
+    color: #ccc;
+
+    .FooterContent {
+      padding: 2rem;
+
+      .Contact {
+        justify-content: flex-start;
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: auto;
+
+        @media only screen and (min-width: 769px) {
+          grid-template-columns: 150px 200px 200px;
+          justify-content: center;
+          padding: 0;
+        }
+
+        .Logo {
+          width: 120px;
+          text-align: center;
+        }
+
+        .Address {
+        }
+
+        .Heading {
+          font-size: .8em;
+          padding: .5rem .2rem .2rem .2rem;
+        }
+
+        .Line {
+          padding: 0 .2rem .8rem .2rem;
+        }
+      }
+
+      .SocialMedia {
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+      }
+
+    }
+
+
+    .DDLine {
+      font-size: .8em;
+      color: #ccc;
+      text-align: center;
+
+      a {
+        text-decoration: none;
+        color: #ccc;
+        transition: color .5s;
+
+        &:hover {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}

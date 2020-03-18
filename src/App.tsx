@@ -1,0 +1,94 @@
+import React, {Suspense, useEffect} from "react";
+import {Route, Switch, useLocation} from "react-router-dom";
+import Layout from './containers/Layout'
+import Scrollbars from 'react-custom-scrollbars'
+import {BounceLoader} from 'react-spinners'
+
+const Career = React.lazy(() => import('./containers/Career/Career'))
+const Contact = React.lazy(() => import('./containers/Contact/Contact'))
+const WebPortal = React.lazy(() => import('./containers/WebPortal/WebPortals'))
+const NotFound = React.lazy(() => import('./containers/NotFound/NotFound'))
+const HomePage = React.lazy(() => import('./containers/Home/HomePage'))
+
+
+function App() {
+
+    const {pathname} = useLocation()
+
+    const scrollRef = React.useRef<Scrollbars>(null)
+
+    // front loading screen
+    // const fakeTimer = () => {
+    //     return new Promise(resolve => setTimeout(resolve, 2000))
+    // }
+    //
+    // useEffect(() => {
+    //
+    //     fakeTimer().then(() => {
+    //         const ele = document.getElementById('ipl-progress-indicator')
+    //         if (ele) {
+    //             ele.classList.add('available')
+    //             setTimeout(() => {
+    //                 ele.outerHTML = ''
+    //             }, 2000)
+    //         }
+    //     })
+    //
+    // })
+
+
+    useEffect(() => {
+        if (scrollRef.current) scrollRef.current.scrollToTop()
+    }, [pathname])
+
+    // hack for view height property.
+    useEffect(() => {
+        const heightSet = () => {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        window.addEventListener('resize', heightSet)
+        heightSet()
+
+        // runs on component unmount
+        return () => {
+            window.removeEventListener('resize', heightSet)
+        }
+    }, [])
+
+
+    let routes = (
+        <Switch>
+            <Route path="/" exact component={HomePage}/>
+            <Route path="/career" exact component={Career}/>
+            <Route path="/contact" exact component={Contact}/>
+            <Route path="/portals" exact component={WebPortal}/>
+            <Route path="/*" component={NotFound}/>
+        </Switch>
+    )
+
+    return (
+        <Scrollbars style={{height: '100vh'}} ref={scrollRef}>
+            <Suspense fallback={
+                <div style={{
+                    height: '100vh',
+                    width: '100%',
+                    margin: '0 auto',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    display: 'flex',
+                    flexDirection: 'column'
+                }}>
+                    <div><BounceLoader color={"#F5A623"} loading={true} size={40}/></div>
+                    <div style={{marginTop: '15px'}}>Loading...</div>
+                </div>
+            }>
+                <Layout showHeader={true} showFooter={true} showFooterMap={pathname === '/contact'}>{routes}</Layout>
+                {/*<PageModal/>*/}
+            </Suspense>
+        </Scrollbars>
+
+    );
+}
+
+export default App;

@@ -1,0 +1,27 @@
+
+.Content {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: rgba(#707070, .7);
+  border: 2px solid #000;
+
+
+  @media only screen and (min-width: 769px) {
+    width: 50%;
+    float: right;
+  }
+
+  .Title {
+    padding: 0;
+    font-size: 2rem;
+    font-weight: 100;
+    font-family: 'Abril Fatface', cursive;
+    text-align: center;
+  }
+
+  .Detail {
+    line-height: 1.5rem;
+    margin-top: 2rem;
+  }
+}

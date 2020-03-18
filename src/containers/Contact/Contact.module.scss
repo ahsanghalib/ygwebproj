@@ -1,0 +1,100 @@
+.Hero {
+  height: 150px;
+  background: lightseagreen;
+}
+
+
+.PageHeading {
+  margin: 0 auto;
+  font-size: 1.5rem;
+  font-weight: bold;
+  max-width: 1200px;
+  padding-top: 25px;
+  padding-left: 25px;
+  @media only screen and (min-width: 1025px) {
+    padding-left: 0;
+  }
+}
+
+.Container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+
+  //@media only screen and (min-width: 769px) {
+  //  display: grid;
+  //  grid-template-columns: 3fr 1fr;
+  //}
+
+  .FormSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @media only screen and (min-width: 769px) {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+    }
+
+    .Outer {
+      padding: 15px;
+    }
+
+    .Image {
+      //width: 100%;
+      padding: 10px;
+      height: 150px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @media only screen and (min-width: 769px) {
+        height: 225px;
+      }
+      img {
+        height: 100%;
+      }
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      padding-right: 25px;
+      width: 100%;
+      .BtnGroup {
+        padding-top: 10px
+      }
+      .TextFields {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .AddressSection {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-family: "Open Sans", sans-serif;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+    @media only screen and (min-width: 769px) {
+      grid-template-columns: auto auto auto auto auto;
+    }
+
+    .AddressBlock {
+      background-color: rgba(#fff, .8);
+      padding: 10px;
+      .Heading {
+        font-weight: bold;
+        font-size: .7em;
+      }
+
+      .Line {
+        font-size: .8em;
+      }
+    }
+  }
+}

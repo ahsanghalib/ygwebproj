@@ -1,0 +1,42 @@
+
+.Content {
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  grid-column-gap: 25px;
+  grid-row-gap: 25px;
+  justify-content: center;
+
+  @media only screen and (max-width: 1024px) {
+    grid-template-columns: repeat(4, 200px);
+  }
+
+  @media only screen and (max-width: 768px) {
+    grid-template-columns: repeat(3, 200px);
+  }
+
+  @media only screen and (max-width: 425px) {
+    grid-template-columns: repeat(2, 175px);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+  }
+
+  div {
+    padding: 10px;
+    background: rgba(#ffffff, .6);
+    font-size: 1rem;
+    transition: background-color .5s;
+
+    &:hover {
+      background: rgba(#fff, .9);
+    }
+
+    .ContentHead {
+      font-weight: bold;
+    }
+
+    .ContentDesc {
+      background-color: transparent;
+    }
+  }
+}

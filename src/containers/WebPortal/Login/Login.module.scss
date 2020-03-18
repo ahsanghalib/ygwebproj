@@ -1,0 +1,29 @@
+
+.Login {
+
+  max-width: 450px;
+  margin: 0 auto;
+
+  .Outer {
+    padding: 15px;
+
+    .Header {
+      font-size: 1.25em;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .BtnGroup {
+        margin-top: 10px;
+      }
+    }
+  }
+
+
+}
