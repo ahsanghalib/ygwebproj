@@ -83,7 +83,7 @@ function App() {
                     <div style={{marginTop: '15px'}}>Loading...</div>
                 </div>
             }>
-                <Layout showHeader={true} showFooter={true} showFooterMap={pathname === '/contact'}>{routes}</Layout>
+                <Layout showHeader={true} showFooter={pathname !== '/portals'} showFooterMap={pathname === '/contact'}>{routes}</Layout>
                 {/*<PageModal/>*/}
             </Suspense>
         </Scrollbars>

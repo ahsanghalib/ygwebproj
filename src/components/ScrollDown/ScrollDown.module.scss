@@ -5,7 +5,7 @@
   right: 5%;
 
   @media only screen and (min-width: 769px) {
-    top: 80%;
+    top: calc(var(--vh, 1vh) * 80);
   }
 
   .Chevron {

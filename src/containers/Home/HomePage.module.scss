@@ -57,6 +57,11 @@
   .Container {
     max-width: 800px;
     padding-top: 4rem;
+    padding-bottom: 425px;
+
+    @media only screen and (max-width: 769px) {
+      padding-bottom: 785px;
+    }
   }
 }
 

@@ -4,7 +4,7 @@ import MainLogo from '../MainLogo'
 import SocialMediaIcon from '../SocialMediaIcon'
 
 
-function Footer(props: { showMap: boolean }) {
+function Footer(props: { showMap: boolean, showContent: boolean }) {
 
     return (
         <div className={classes.FooterMain}>
@@ -19,53 +19,69 @@ function Footer(props: { showMap: boolean }) {
                 title={"Google Map Location"}
             /> : null}
 
+            {props.showContent ? (
+                   <div>
+                       <div className={classes.FooterLine}/>
+                       <div className={classes.Footer}>
+                           <div className={classes.FooterContent}>
+                               <div className={classes.Contact}>
+                                   <div className={classes.Logo}>
+                                       <MainLogo type={'white'}/>
+                                   </div>
+                                   <div className={classes.Address}>
+                                       <div>
+                                           <div className={classes.Heading}>Head Office</div>
+                                           <div className={classes.Line}>50/C-1 Valencia Town, Lahore.</div>
+                                       </div>
+                                       <div>
+                                           <div className={classes.Heading}>Corporate Office</div>
+                                           <div className={classes.Line}>6-D, Industrial Estate, Phase 1, Multan.</div>
+                                       </div>
+                                   </div>
+                                   <div className={classes.Numbers}>
+                                       <div>
+                                           <div className={classes.Heading}>Email</div>
+                                           <div className={classes.Line}>info@yaqoobgroup.com</div>
+                                       </div>
+                                       <div>
+                                           <div className={classes.Heading}>UAN</div>
+                                           <div className={classes.Line}>+92 61 111 333 334</div>
+                                       </div>
+                                       <div>
+                                           <div className={classes.Heading}>Landline</div>
+                                           <div className={classes.Line}>+92 42 3595 3796</div>
+                                       </div>
+                                   </div>
 
-            <div className={classes.FooterLine}/>
-            <div className={classes.Footer}>
-                <div className={classes.FooterContent}>
-                    <div className={classes.Contact}>
-                        <div className={classes.Logo}>
-                            <MainLogo type={'white'}/>
-                        </div>
-                        <div className={classes.Address}>
-                            <div>
-                                <div className={classes.Heading}>Head Office</div>
-                                <div className={classes.Line}>50/C-1 Valencia Town, Lahore.</div>
-                            </div>
-                            <div>
-                                <div className={classes.Heading}>Corporate Office</div>
-                                <div className={classes.Line}>6-D, Industrial Estate, Phase 1, Multan.</div>
-                            </div>
-                        </div>
-                        <div className={classes.Numbers}>
-                            <div>
-                                <div className={classes.Heading}>Email</div>
-                                <div className={classes.Line}>info@yaqoobgroup.com</div>
-                            </div>
-                            <div>
-                                <div className={classes.Heading}>UAN</div>
-                                <div className={classes.Line}>+92 61 111 333 334</div>
-                            </div>
-                            <div>
-                                <div className={classes.Heading}>Landline</div>
-                                <div className={classes.Line}>+92 42 3595 3796</div>
-                            </div>
-                        </div>
+                               </div>
 
+                               <div className={classes.SocialMedia}>
+                                   <SocialMediaIcon iconSize={"40"}/>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+            ) : null}
+
+            <div className={classes.PortalFooter}>
+                <div className={classes.Row}>
+                    <div className={classes.Column}>
+                        &copy; {new Date().getFullYear()} Copy rights are reserved by
                     </div>
-
-                    <div className={classes.SocialMedia}>
-                        <SocialMediaIcon iconSize={"40"}/>
+                    <div className={classes.Column}>
+                        Yaqoob Group of Companies, Pakistan.
                     </div>
                 </div>
-                <div className={classes.DDLine}>
-                    Designed & Developed By:&nbsp;&nbsp;
-                    <a href="https://www.fiverr.com/ahsanghalib">
-                        Muhammad Ahsan Izhar
-                    </a>&nbsp;&nbsp;- Heptfy
-                    Solutions.
+                <div className={classes.Row}>
+                    <div className={classes.Column}>
+                        Designed & Developed by:
+                    </div>
+                    <div className={classes.Column}>
+                        Muhammad Ahsan Izhar (Heptfy Solutions)
+                    </div>
                 </div>
             </div>
+
         </div>
     )
 }
