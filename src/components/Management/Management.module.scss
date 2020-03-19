@@ -82,3 +82,49 @@
 
   }
 }
+
+.DetailsPage {
+  display: flex;
+  flex-direction: column;
+  .Image {
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 2px 2px 4px;
+    border-radius: 50% 50%;
+    height: 275px;
+    width: 275px;
+    background-color: transparent;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .Detail {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    .Quote {
+      font-size: 2rem;
+      font-family: "Caveat", cursive;
+      padding: 1rem;
+    }
+
+    .Full {
+      padding: 1rem;
+      margin: 0 auto;
+      line-height: 2rem;
+      font-family: "Open Sans", sans-serif;
+      width: 75%;
+    }
+
+    .Name {
+      padding: 1rem;
+    }
+  }
+}

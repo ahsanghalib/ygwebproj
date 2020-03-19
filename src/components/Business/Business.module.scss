@@ -45,15 +45,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     div {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
+
       img {
         width: auto;
       }
     }
+
     img {
       width: 55px;
       height: 100%;
@@ -64,25 +67,60 @@
     }
   }
 
-  .Details {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.5em;
-    padding-right: 10px;
-    font-size: 14px;
-    @media only screen and (min-width: 769px) {
-      font-size: 16px;
-    }
+  //.Details {
+  //  display: flex;
+  //  flex-direction: column;
+  //  line-height: 1.5em;
+  //  padding-right: 10px;
+  //  font-size: 14px;
+  //  @media only screen and (min-width: 769px) {
+  //    font-size: 16px;
+  //  }
+  //
+  //  .Title {
+  //    font-size: 1.25em;
+  //    text-decoration: none;
+  //    color: inherit;
+  //  }
+  //
+  //  .Slog {
+  //    font-size: .9em;
+  //    line-height: 1.2em;
+  //  }
+  //}
+}
 
-    .Title {
-      font-size: 1.25em;
-      text-decoration: none;
-      color: inherit;
-    }
 
-    .Slog {
-      font-size: .9em;
-      line-height: 1.2em;
+.BusinessDetail {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5rem;
+  .Logo {
+    padding: 1rem;
+    height: 150px;
+    text-align: center;
+
+    img {
+      height: 100%;
     }
   }
+
+  .Title {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1rem;
+  }
+
+  .Slog {
+    padding: 0 1rem;
+    font-size: 1.25rem;
+  }
+
+  .Content {
+    font-family: "Open Sans", sans-serif;
+    padding: 2rem 1rem;
+    font-size: 1.25rem;
+    line-height: 2rem;
+  }
+
 }

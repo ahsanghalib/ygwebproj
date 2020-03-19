@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 import classes from './ProductSlider.module.scss';
 import Image from '../Image'
+import {useDispatch} from 'react-redux'
+import {pageModalAction} from '../../store/Actions'
+import {PageModelEnum} from '../../types'
 
 
 function ProductSlider() {
 
-    const [modalIsOpen, setModelIsOpen] = useState(false)
-    const [selectedIndex, setSelectedIndex] = useState(0)
+    const dispatch = useDispatch()
 
     const settings = {
         dots: false,
@@ -29,18 +31,14 @@ function ProductSlider() {
         return listUrl
     }
 
-    const toggleModel = (index: number) => {
-        setModelIsOpen(!modalIsOpen);
-        setSelectedIndex(index)
-    }
-
 
     return (
         <div>
             <Slider {...settings} className={classes.Slider}>
                 {prodUrls().map((d, i) => (
                     <div key={i}>
-                        <div className={classes.Wrapper} onClick={() => toggleModel(i)}>
+                        <div className={classes.Wrapper}
+                             onClick={() => dispatch(pageModalAction(true, `${i + 1}.jpg`, PageModelEnum.prod, 'Product Detail'))}>
                             <Image src={d.src} alt={d.alt}/>
                         </div>
                     </div>

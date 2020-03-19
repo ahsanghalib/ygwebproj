@@ -3,12 +3,17 @@ import classes from './Management.module.scss'
 import {managementData} from '../../data'
 import {Link} from 'react-router-dom'
 import Image from '../Image'
+import {useDispatch} from 'react-redux'
+import {pageModalAction} from '../../store/Actions'
+import {PageModelEnum} from '../../types'
 
 function Management() {
+    const dispatch = useDispatch()
     return (
         <div className={classes.Content}>
             {managementData.map(d => (
-                <Link to="/" className={classes.Person} key={d.id} onClick={() => console.log(`clicked ${d.id}`)}>
+                <Link to="/" className={classes.Person} key={d.id}
+                      onClick={() => dispatch(pageModalAction(true, d.id, PageModelEnum.mange, 'Management'))}>
                     <div className={classes.Image}>
                         <Image src={d.img} alt={d.name}/>
                     </div>

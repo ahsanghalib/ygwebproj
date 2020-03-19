@@ -1,41 +1,55 @@
 import React from 'react';
-import {createUseStyles} from 'react-jss'
-import BusinessList from '../Business/BusinessList'
-import Values from '../Values/Values'
 import Scrollbars from 'react-custom-scrollbars'
-
-const useStyles = createUseStyles({
-    Main: {
-        position: 'fixed',
-        // display: 'block',
-        backgroundColor: 'rgba(255,255,255, .97)',
-        zIndex: '500',
-        // margin: '1.25rem',
-        height: '100%',
-        width: '100%',
-        boxSizing: 'border-box',
-        top: '0%',
-        left: '0%'
-    }
-})
-
+import Button from '@material-ui/core/Button'
+import Close from '@material-ui/icons/Close';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux'
+import {pageModalAction} from '../../store/Actions'
+import {AppStateType, PageModelEnum} from '../../types'
+import classes from './PageModal.module.scss'
+import SingleProduct from '../ProductSlider/SingleProduct'
+import BusinessDetail from '../Business/BusinessDetail'
+import ManagementDetail from '../Management/ManagementDetail'
 
 function PageModal() {
+    const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
+    const dispatch = useDispatch()
 
-    const classes = useStyles()
+
+    const prod = () => {
+        const img = `./prod/${store.pageModal}`
+        return <SingleProduct src={img}/>
+    }
 
     return (
-
-        <div className={classes.Main}>
+        <div className={'full_screen'} style={{transformOrigin: "50% 0"}}>
             <Scrollbars style={{height: '100vh'}}>
                 <div style={{padding: '25px'}}>
-                    <BusinessList/>
-                    <Values/>
-                    <Values/>
+                    <div className={classes.TopBar}>
+                        <div className={classes.BarTitle}>
+                            {store.pageModalTitle}
+                        </div>
+                        <div>
+                            <Button
+                                type={"button"}
+                                size={"large"}
+                                onClick={() => dispatch(pageModalAction(false, '', PageModelEnum.NONE, ''))}>
+                                <Close/>Close
+                            </Button>
+                        </div>
+                    </div>
+
+                    {store.pageModalType === PageModelEnum.prod ? prod() : null}
+
+                    {store.pageModalType === PageModelEnum.com ? (
+                        <BusinessDetail company={store.pageModal}/>
+                    ) : null}
+                    
+                    {store.pageModalType === PageModelEnum.mange ? (
+                        <ManagementDetail id={store.pageModal}/>
+                    ): null}
                 </div>
             </Scrollbars>
         </div>
-
     )
 }
 

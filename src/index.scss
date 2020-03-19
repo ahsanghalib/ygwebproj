@@ -26,3 +26,33 @@ h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
 }
+
+.full_screen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 500;
+  transition: transform 350ms cubic-bezier(0.5, 0, 0.08, 1);
+}
+
+.full_screen-enter {
+  transform: translateY(100%);
+}
+
+.full_screen-enter-active {
+  transition: transform 350ms cubic-bezier(0.5, 0, 0.08, 1);
+  transform: translateY(0);
+}
+
+.full_screen-exit {
+  transform: translateY(0);
+}
+
+.full_screen--exit-active {
+  transition: transform 350ms cubic-bezier(0.5, 0, 0.08, 1);
+  transform: translateY(100%);
+}
+

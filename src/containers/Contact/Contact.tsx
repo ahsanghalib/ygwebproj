@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper'
 import {axiosClient, axiosEmail, body, contactFormHtmlEmail, contactFormTextEmail} from '../../helpers'
 import Loader from '../../components/Loader'
 import FormRender, {FormErrors} from '../../hoc/FormRender'
+import {shallowEqual, useDispatch, useSelector} from 'react-redux'
+import {AppStateType} from '../../types'
+import {appStatusAction} from '../../store/Actions'
 
 interface ContactForm {
     fullName: string
@@ -54,12 +57,12 @@ const Contact: React.FC = props => {
     }
 
     const [formValues, setFormValues] = useState<ContactForm>(formInitValues)
-    const [showResponse, setShowResponse] = useState<{ error: boolean, text: string }>({error: false, text: ''})
-    const [showLoader, setShowLoader] = useState<boolean>(false)
+    const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
+    const dispatch = useDispatch()
 
     const handleSubmit = async (value: ContactForm) => {
         try {
-            setShowLoader(true)
+            dispatch(appStatusAction(true, false, ''))
 
             const emailId = await axiosEmail().post('/email', body(
                 value.fullName,
@@ -75,18 +78,16 @@ const Contact: React.FC = props => {
                 clientTime: new Date().toString()
             })
 
-            setShowResponse({error: false, text: 'Thanks for your feedback. Our team will contact you shortly.'})
-            setShowLoader(false)
+            dispatch(appStatusAction(false, false, 'Thanks for your feedback. Our team will contact you shortly.'))
 
         } catch (err) {
-            setShowResponse({error: true, text: 'Sorry, Something went wrong, please call us or retry.'})
-            setShowLoader(false)
+            dispatch(appStatusAction(false, true, 'Sorry, Something went wrong, please call us or retry.'))
         }
     }
 
     return (
         <div>
-            {showLoader ? <Loader/> : null}
+            {store.loading ? <Loader/> : null}
             <div className={classes.Hero}/>
             <div className={classes.Container}>
                 <div className={classes.FormSection}>
@@ -94,9 +95,9 @@ const Contact: React.FC = props => {
                         <Image src={support} alt={"Customer Support"}/>
                     </div>
                     <Paper className={classes.Outer}>
-                        {showResponse.text !== '' ?
-                            (<div style={{color: `${showResponse.error ? 'red' : 'green'}`, fontSize: '1rem'}}>
-                                {showResponse.text}
+                        {store.responseText !== '' ?
+                            (<div style={{color: `${store.error ? 'red' : 'green'}`, fontSize: '1rem'}}>
+                                {store.responseText}
                             </div>) : null}
                         <FormRender
                             initValues={formInitValues}

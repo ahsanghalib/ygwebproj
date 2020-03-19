@@ -3,6 +3,10 @@ import {Route, Switch, useLocation} from "react-router-dom";
 import Layout from './containers/Layout'
 import Scrollbars from 'react-custom-scrollbars'
 import {BounceLoader} from 'react-spinners'
+import PageModal from './components/PageModal/PageModal'
+import {shallowEqual, useSelector} from 'react-redux'
+import {AppStateType} from './types'
+import CSSTransition from 'react-transition-group/CSSTransition'
 
 const Career = React.lazy(() => import('./containers/Career/Career'))
 const Contact = React.lazy(() => import('./containers/Contact/Contact'))
@@ -14,6 +18,7 @@ const HomePage = React.lazy(() => import('./containers/Home/HomePage'))
 function App() {
 
     const {pathname} = useLocation()
+    const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
 
     const scrollRef = React.useRef<Scrollbars>(null)
 
@@ -83,7 +88,21 @@ function App() {
                     <div style={{marginTop: '15px'}}>Loading...</div>
                 </div>
             }>
-                <Layout showHeader={true} showFooter={pathname !== '/portals'} showFooterMap={pathname === '/contact'}>{routes}</Layout>
+                <Layout
+                    showHeader={true}
+                    showFooter={pathname !== '/portals'}
+                    showFooterMap={pathname === '/contact'}>
+                    {routes}
+                </Layout>
+
+                <CSSTransition in={store.showPageModal} timeout={300} classNames={'full_screen'} unmountOnExit={true}>
+                    <PageModal/>
+                </CSSTransition>
+
+                {/*{store.pageModal ? (*/}
+                {/*    <PageModal/>*/}
+                {/*) : null}*/}
+
                 {/*<PageModal/>*/}
             </Suspense>
         </Scrollbars>

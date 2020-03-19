@@ -3,13 +3,20 @@ import classes from './Business.module.scss';
 import {businessData} from '../../data'
 import BusinessCard from './BusinessCard'
 import {Link} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import {pageModalAction} from '../../store/Actions'
+import {PageModelEnum} from '../../types'
 
 
 function BusinessList() {
+    const dispatch = useDispatch()
+
     return (
         <div className={classes.List}>
             {businessData.map(d => (
-                <Link to={"/"} key={d.id} onClick={() => console.log(`clicked ${d.id}`)}>
+                <Link to={"/"}
+                      key={d.id}
+                      onClick={() => dispatch(pageModalAction(true, d.id, PageModelEnum.com, 'Business Details'))}>
                     <BusinessCard
                         id={d.id}
                         logoUrl={d.logoUrl}
