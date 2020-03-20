@@ -112,7 +112,7 @@ const Career: React.FC = props => {
         try {
             dispatch(appStatusAction(true, false, ''))
 
-            const emailId = await axiosEmail().post('/email', body(
+            await axiosEmail().post('/email', body(
                 values.fullName,
                 values.email,
                 `${values.fullName} - ${values.education} - (Resume)`,
@@ -156,11 +156,11 @@ const Career: React.FC = props => {
                 )
             ))
 
-            await axiosClient().post('/career', {
-                ...values,
-                emailId: emailId.data.messageId,
-                clientTime: new Date().toString()
-            })
+            // await axiosClient().post('/career', {
+            //     ...values,
+            //     emailId: emailId.data.messageId,
+            //     clientTime: new Date().toString()
+            // })
 
             dispatch(appStatusAction(false, false, 'Thanks for your feedback. Our team will contact you shortly.'))
 

@@ -9,16 +9,12 @@ import classes from './PageModal.module.scss'
 import SingleProduct from '../ProductSlider/SingleProduct'
 import BusinessDetail from '../Business/BusinessDetail'
 import ManagementDetail from '../Management/ManagementDetail'
+import Pagination from '../Pagination/Pagination'
 
 function PageModal() {
     const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
     const dispatch = useDispatch()
 
-
-    const prod = () => {
-        const img = `./prod/${store.pageModal}`
-        return <SingleProduct src={img}/>
-    }
 
     return (
         <div className={'full_screen'} style={{transformOrigin: "50% 0"}}>
@@ -32,21 +28,27 @@ function PageModal() {
                             <Button
                                 type={"button"}
                                 size={"large"}
-                                onClick={() => dispatch(pageModalAction(false, '', PageModelEnum.NONE, ''))}>
+                                onClick={() => dispatch(pageModalAction(false, 0, 0, PageModelEnum.NONE, ''))}>
                                 <Close/>Close
                             </Button>
                         </div>
                     </div>
 
-                    {store.pageModalType === PageModelEnum.prod ? prod() : null}
+                    {store.pageModalType === PageModelEnum.prod ? (
+                        <SingleProduct/>
+                    ) : null}
 
                     {store.pageModalType === PageModelEnum.com ? (
-                        <BusinessDetail company={store.pageModal}/>
+                        <BusinessDetail/>
                     ) : null}
-                    
+
                     {store.pageModalType === PageModelEnum.mange ? (
-                        <ManagementDetail id={store.pageModal}/>
-                    ): null}
+                        <ManagementDetail/>
+                    ) : null}
+
+                </div>
+                <div className={classes.Pagination}>
+                    <Pagination/>
                 </div>
             </Scrollbars>
         </div>

@@ -2,10 +2,14 @@ import React from 'react';
 import {managementData} from '../../data'
 import classes from './Management.module.scss'
 import Image from '../Image'
+import {shallowEqual, useSelector} from 'react-redux'
+import {AppStateType} from '../../types'
 
 
-function ManagementDetail(props: {id: string}) {
-    const mag = managementData.find(d => d.id === props.id)
+function ManagementDetail() {
+    const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
+
+    const mag = managementData[store.pageIndex]
 
     return (
         <div className={classes.DetailsPage}>

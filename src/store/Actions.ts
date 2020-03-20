@@ -1,4 +1,10 @@
-import {AppStatusActionType, PageModalActionType, PageModelEnum} from '../types'
+import {
+    AppStatusActionType,
+    NextPaginationActionType,
+    PageModalActionType,
+    PageModelEnum,
+    PrevPaginationActionType
+} from '../types'
 
 export function appStatusAction(loading: boolean, error: boolean, responseText: string): AppStatusActionType {
     return {
@@ -9,12 +15,25 @@ export function appStatusAction(loading: boolean, error: boolean, responseText: 
     }
 }
 
-export function pageModalAction(show: boolean, modal: string, pageType: PageModelEnum, title: string): PageModalActionType {
+export function pageModalAction(show: boolean, index: number, total: number, pageType: PageModelEnum, title: string): PageModalActionType {
     return {
         type: 'PAGE MODAL',
-        pageModal: modal,
         showPageModal: show,
         pageModalType: pageType,
-        pageModalTitle: title
+        pageModalTitle: title,
+        pageTotal: total,
+        pageIndex: index
+    }
+}
+
+export function nextPaginationAction (): NextPaginationActionType {
+    return {
+        type: 'NEXT PAGINATION'
+    }
+}
+
+export function prevPaginationAction () : PrevPaginationActionType {
+    return {
+        type: 'PREV PAGINATION'
     }
 }

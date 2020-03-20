@@ -38,7 +38,7 @@ function ProductSlider() {
                 {prodUrls().map((d, i) => (
                     <div key={i}>
                         <div className={classes.Wrapper}
-                             onClick={() => dispatch(pageModalAction(true, `${i + 1}.jpg`, PageModelEnum.prod, 'Product Detail'))}>
+                             onClick={() => dispatch(pageModalAction(true, i, prodUrls().length, PageModelEnum.prod, 'Product Detail'))}>
                             <Image src={d.src} alt={d.alt}/>
                         </div>
                     </div>

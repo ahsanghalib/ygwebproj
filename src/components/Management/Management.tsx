@@ -11,9 +11,9 @@ function Management() {
     const dispatch = useDispatch()
     return (
         <div className={classes.Content}>
-            {managementData.map(d => (
+            {managementData.map((d, i) => (
                 <Link to="/" className={classes.Person} key={d.id}
-                      onClick={() => dispatch(pageModalAction(true, d.id, PageModelEnum.mange, 'Management'))}>
+                      onClick={() => dispatch(pageModalAction(true, i, managementData.length, PageModelEnum.mange, 'Management'))}>
                     <div className={classes.Image}>
                         <Image src={d.img} alt={d.name}/>
                     </div>

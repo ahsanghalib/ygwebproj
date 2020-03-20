@@ -1,10 +1,15 @@
 import React from 'react';
 import classes from './ProductSlider.module.scss'
+import {shallowEqual, useSelector} from 'react-redux'
+import {AppStateType} from '../../types'
 
-function SingleProduct(props: { src: string }) {
+function SingleProduct() {
+
+    const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
+
     return (
         <div className={classes.SingleProduct}>
-            <img src={props.src} alt={"Products"}/>
+            <img src={`./prod/${store.pageIndex+1}.jpg`} alt={"Products"}/>
         </div>
     )
 }

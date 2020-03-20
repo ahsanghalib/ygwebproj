@@ -64,7 +64,7 @@ const Contact: React.FC = props => {
         try {
             dispatch(appStatusAction(true, false, ''))
 
-            const emailId = await axiosEmail().post('/email', body(
+            await axiosEmail().post('/email', body(
                 value.fullName,
                 value.email,
                 `${value.subject} - (Contact Form)`,
@@ -72,11 +72,11 @@ const Contact: React.FC = props => {
                 contactFormTextEmail(value.fullName, value.message, value.phone)
             ))
 
-            await axiosClient().post('/contact', {
-                ...value,
-                emailId: emailId.data.messageId,
-                clientTime: new Date().toString()
-            })
+            // await axiosClient().post('/contact', {
+            //     ...value,
+            //     emailId: emailId.data.messageId,
+            //     clientTime: new Date().toString()
+            // })
 
             dispatch(appStatusAction(false, false, 'Thanks for your feedback. Our team will contact you shortly.'))
 

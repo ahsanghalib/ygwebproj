@@ -14,7 +14,8 @@ export interface AppState {
     error: boolean
     responseText: string
     showPageModal: boolean
-    pageModal: string
+    pageIndex: number
+    pageTotal: number
     pageModalType: PageModelEnum
     pageModalTitle: string
 }
@@ -35,9 +36,19 @@ export interface AppStatusActionType extends Action {
 export interface PageModalActionType extends Action {
     type: 'PAGE MODAL'
     showPageModal: boolean
-    pageModal: string
+    pageIndex: number
+    pageTotal: number
     pageModalType: PageModelEnum
     pageModalTitle: string
 }
 
-export type AppAction = AppStatusActionType | PageModalActionType
+export interface NextPaginationActionType extends Action {
+    type: 'NEXT PAGINATION'
+}
+
+
+export interface PrevPaginationActionType extends Action {
+    type: 'PREV PAGINATION'
+}
+
+export type AppAction = AppStatusActionType | PageModalActionType | NextPaginationActionType | PrevPaginationActionType

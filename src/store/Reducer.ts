@@ -2,9 +2,10 @@ import produce from "immer";
 import {AppAction, AppState, PageModelEnum} from '../types'
 
 const initialState: AppState = {
+    pageIndex: 0,
+    pageTotal: 0,
     pageModalTitle: '',
     pageModalType: PageModelEnum.NONE,
-    pageModal: '',
     showPageModal: false,
     loading: false,
     error: false,
@@ -21,10 +22,19 @@ function Reducer(state = initialState, action: AppAction) {
             })
         case 'PAGE MODAL':
             return produce(state, draft => {
-                draft.pageModal = action.pageModal;
+                draft.pageIndex = action.pageIndex;
+                draft.pageTotal = action.pageTotal;
                 draft.showPageModal = action.showPageModal;
                 draft.pageModalType = action.pageModalType;
                 draft.pageModalTitle = action.pageModalTitle
+            })
+        case 'NEXT PAGINATION':
+            return produce(state, draft => {
+                draft.pageIndex += 1
+            })
+        case 'PREV PAGINATION':
+            return produce(state, draft => {
+                draft.pageIndex -= 1
             })
         default:
             return state;

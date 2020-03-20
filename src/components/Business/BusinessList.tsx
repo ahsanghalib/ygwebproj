@@ -13,10 +13,10 @@ function BusinessList() {
 
     return (
         <div className={classes.List}>
-            {businessData.map(d => (
+            {businessData.map((d, i) => (
                 <Link to={"/"}
                       key={d.id}
-                      onClick={() => dispatch(pageModalAction(true, d.id, PageModelEnum.com, 'Business Details'))}>
+                      onClick={() => dispatch(pageModalAction(true, i, businessData.length, PageModelEnum.com, 'Business Details'))}>
                     <BusinessCard
                         id={d.id}
                         logoUrl={d.logoUrl}

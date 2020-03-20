@@ -2,11 +2,15 @@ import React from 'react';
 import {businessData} from '../../data'
 import classes from './Business.module.scss';
 import Image from '../Image'
+import {shallowEqual, useSelector} from 'react-redux'
+import {AppStateType} from '../../types'
 
 
-function BusinessDetail(props: { company: string }) {
+function BusinessDetail() {
 
-    const business = businessData.find(d => d.id === props.company)
+    const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
+
+    const business = businessData[store.pageIndex]
 
     return (
         <div className={classes.BusinessDetail}>

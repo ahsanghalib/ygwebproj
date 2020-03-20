@@ -7,7 +7,7 @@ const WebPortal: React.FC = props => {
         <div>
             <div className={classes.Hero}/>
             <div className={classes.Container}>
-                <Login/>
+                <Login />
             </div>
 
         </div>
