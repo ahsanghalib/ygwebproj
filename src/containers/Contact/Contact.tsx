@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './Contact.module.scss';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -7,7 +7,7 @@ import support from '../../assets/images/support.png'
 import * as yup from 'yup'
 import Image from '../../components/Image'
 import Paper from '@material-ui/core/Paper'
-import {axiosClient, axiosEmail, body, contactFormHtmlEmail, contactFormTextEmail} from '../../helpers'
+import {axiosEmail, body, contactFormHtmlEmail, contactFormTextEmail} from '../../helpers'
 import Loader from '../../components/Loader'
 import FormRender, {FormErrors} from '../../hoc/FormRender'
 import {shallowEqual, useDispatch, useSelector} from 'react-redux'
@@ -59,6 +59,10 @@ const Contact: React.FC = props => {
     const [formValues, setFormValues] = useState<ContactForm>(formInitValues)
     const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(appStatusAction(false, false, ''))
+    }, [])
 
     const handleSubmit = async (value: ContactForm) => {
         try {

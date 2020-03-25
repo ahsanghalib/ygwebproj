@@ -107,22 +107,28 @@
     }
   }
 
-  .Title {
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 1rem;
+  .Full {
+    width: 75%;
+    margin: 0 auto;
+
+    .Title {
+      font-size: 2rem;
+      font-weight: bold;
+      padding: 1rem;
+    }
+
+    .Slog {
+      padding: 0 1rem;
+      font-size: 1.25rem;
+    }
+
+    .Content {
+      font-family: "Open Sans", sans-serif;
+      padding: 2rem 1rem;
+      line-height: 2rem;
+    }
+
   }
 
-  .Slog {
-    padding: 0 1rem;
-    font-size: 1.25rem;
-  }
-
-  .Content {
-    font-family: "Open Sans", sans-serif;
-    padding: 2rem 1rem;
-    font-size: 1.25rem;
-    line-height: 2rem;
-  }
 
 }

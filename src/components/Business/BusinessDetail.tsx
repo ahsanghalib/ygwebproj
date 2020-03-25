@@ -17,15 +17,17 @@ function BusinessDetail() {
             <div className={classes.Logo}>
                 <Image src={business!.logoUrl} alt={business!.title}/>
             </div>
-            <div className={classes.Title}>
-                {business!.title}
-            </div>
-            <div className={classes.Slog}>
-                {business!.slog}
-            </div>
+            <div className={classes.Full}>
+                <div className={classes.Title}>
+                    {business!.title}
+                </div>
+                <div className={classes.Slog}>
+                    {business!.slog}
+                </div>
 
-            <div className={classes.Content}>
-                {business!.detail}
+                <div className={classes.Content}>
+                    {business!.detail}
+                </div>
             </div>
         </div>
     )

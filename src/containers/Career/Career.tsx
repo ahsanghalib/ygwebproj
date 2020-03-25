@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './Career.module.scss'
 import TextField from '@material-ui/core/TextField'
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -107,6 +107,10 @@ const Career: React.FC = props => {
     const [formValues, setFormValues] = useState<CareerForm>(formInitValues);
     const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(appStatusAction(false, false, ''))
+    }, [])
 
     const handleSubmit = async (values: CareerForm) => {
         try {
