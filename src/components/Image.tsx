@@ -1,6 +1,8 @@
 import React from 'react';
 import Img from 'react-image'
-import imageNotFound from '../assets/imageNotFound.png'
+import {ASSETS_URL} from '../helpers'
+
+const imageNotFound = ASSETS_URL + '/imageNotFound.png'
 
 interface ImageProps {
     src: string;

@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './ProductSlider.module.scss'
 import {shallowEqual, useSelector} from 'react-redux'
 import {AppStateType} from '../../types'
+import {ASSETS_URL} from '../../helpers'
 
 function SingleProduct() {
 
@@ -9,7 +10,7 @@ function SingleProduct() {
 
     return (
         <div className={classes.SingleProduct}>
-            <img src={`./prod/${store.pageIndex+1}.jpg`} alt={"Products"}/>
+            <img src={`${ASSETS_URL}/prod/${store.pageIndex+1}.jpg`} alt={"Products"}/>
         </div>
     )
 }

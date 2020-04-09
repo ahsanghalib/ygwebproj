@@ -1,12 +1,14 @@
-import lagLogo from '../assets/logos/leaderag-logo.svg'
-import agrowmarkLogo from '../assets/logos/agrowmark-logo.svg'
-import agrinarLogo from '../assets/logos/agrinar-logo.svg'
-import fairseedLogo from '../assets/logos/fairseed-logo.svg'
-import plant4lifeLogo from '../assets/logos/plant4life-logo.svg'
-import sahaabLogo from '../assets/logos/sahaab-logo.svg'
-import ysLogo from '../assets/logos/yaqoobsons-logo.svg'
-import afzal from '../assets/images/mg/afzal.png'
-import shahid from '../assets/images/mg/shahid.png'
+import {ASSETS_URL} from '../helpers'
+
+const lagLogo = ASSETS_URL + '/logos/leaderag-logo.png'
+const agrowmarkLogo = ASSETS_URL + '/logos/agrowmark-logo.png'
+const agrinarLogo = ASSETS_URL + '/logos/agrinar-logo.png'
+const fairseedLogo = ASSETS_URL + '/logos/fairseed-logo.png'
+const plant4lifeLogo = ASSETS_URL + '/logos/plant4life-logo.png'
+const sahaabLogo = ASSETS_URL + '/logos/sahaab-logo.png'
+const ysLogo = ASSETS_URL + '/logos/yaqoobsons-logo.png'
+const afzal = ASSETS_URL + '/images/mg/afzal.png'
+const shahid = ASSETS_URL + '/images/mg/shahid.png'
 
 export const businessData = [
     {

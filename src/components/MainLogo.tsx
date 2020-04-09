@@ -1,7 +1,9 @@
 import React from 'react';
-import ygLogoColor from "../assets/logos/yg-logo-color.svg";
-import ygLogoWhite from "../assets/logos/yg-logo-white.svg";
 import Image from './Image'
+import {ASSETS_URL} from '../helpers'
+
+const ygLogoColor = ASSETS_URL + "/logos/yg-logo-color.png";
+const ygLogoWhite = ASSETS_URL + "/logos/yg-logo-white.png";
 
 interface MainLogoProps {
     type: 'color' | 'white';

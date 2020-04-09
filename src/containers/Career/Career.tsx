@@ -11,15 +11,16 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Image from '../../components/Image'
-import career from '../../assets/images/career.png'
 import Paper from '@material-ui/core/Paper'
 import * as yup from 'yup'
-import {axiosClient, axiosEmail, body, careerFormHtmlEmail, careerFormTextEmail} from '../../helpers'
+import {ASSETS_URL, axiosEmail, body, careerFormHtmlEmail, careerFormTextEmail} from '../../helpers'
 import Loader from '../../components/Loader'
 import FormRender, {FormErrors} from '../../hoc/FormRender'
 import {shallowEqual, useDispatch, useSelector} from 'react-redux'
 import {AppStateType} from '../../types'
 import {appStatusAction} from '../../store/Actions'
+
+const career = ASSETS_URL + '/images/career.png'
 
 interface CareerForm {
     fullName: string;
@@ -110,7 +111,7 @@ const Career: React.FC = props => {
 
     useEffect(() => {
         dispatch(appStatusAction(false, false, ''))
-    }, [])
+    }, [dispatch])
 
     const handleSubmit = async (values: CareerForm) => {
         try {

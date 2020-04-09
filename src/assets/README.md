@@ -1,0 +1,1 @@
+**All assets are moved to https://github.com/ahsanghalib/ygwebassets repo.**

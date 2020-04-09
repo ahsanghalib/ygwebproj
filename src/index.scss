@@ -9,7 +9,8 @@ $robot-font: "Roboto", sans-serif;
 $caveat-font: "Caveat", cursive;
 $karla-font: 'Karla', sans-serif;
 $abril-font: 'Abril Fatface', cursive;
-
+$height: calc(var(--vh, 1vh) * 100);
+$assets: 'https://raw.githubusercontent.com/ahsanghalib/ygwebassets/master';
 
 
 body {

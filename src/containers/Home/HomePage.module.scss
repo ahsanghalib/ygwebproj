@@ -1,6 +1,8 @@
+@import "../../index.scss";
+
 
 .Business {
-  background: url("../../assets/images/business.jpg") no-repeat fixed bottom center/cover;
+  background: url($assets + "/images/business.jpg") no-repeat fixed bottom center/cover;
 
   .Overlay {
     background: rgba(#fff, .9);
@@ -16,7 +18,7 @@
 }
 
 .Values {
-  background: url("../../assets/images/values.jpg") no-repeat fixed bottom center/cover;
+  background: url($assets + "/images/values.jpg") no-repeat fixed bottom center/cover;
 
   .Overlay {
     background: rgba(#000, .4);
@@ -28,7 +30,7 @@
 }
 
 .Management {
-  background: url("../../assets/images/management.jpg") no-repeat fixed bottom center/cover;
+  background: url($assets + "/images/management.jpg") no-repeat fixed bottom center/cover;
 
   .Overlay {
     background: rgba(#fff, .8);
@@ -39,7 +41,7 @@
 
 .History {
   color: white;
-  background: url("../../assets/images/history.jpg") no-repeat fixed bottom center/cover;
+  background: url($assets + "/images/history.jpg") no-repeat fixed bottom center/cover;
 
   .Overlay {
     background: rgba(#000, .2);

@@ -2,6 +2,7 @@ import axios, {AxiosRequestConfig} from 'axios'
 
 
 const BASE_URL = process.env.REACT_APP_API_URL
+export const ASSETS_URL = process.env.REACT_APP_GITHUB_ASSETS_URL
 
 export function axiosClient() {
     let defaultOptions: AxiosRequestConfig = {

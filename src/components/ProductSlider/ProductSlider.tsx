@@ -5,6 +5,7 @@ import Image from '../Image'
 import {useDispatch} from 'react-redux'
 import {pageModalAction} from '../../store/Actions'
 import {PageModelEnum} from '../../types'
+import {ASSETS_URL} from '../../helpers'
 
 
 function ProductSlider() {
@@ -26,7 +27,7 @@ function ProductSlider() {
     const prodUrls = () => {
         let listUrl = []
         for (let i = 1; i <= 12; i++) {
-            listUrl.push({src: `./prod/${i}.jpg`, alt: `Product Pictures`})
+            listUrl.push({src: `${ASSETS_URL}/prod/${i}.jpg`, alt: `Product Pictures`})
         }
         return listUrl
     }

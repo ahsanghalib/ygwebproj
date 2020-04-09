@@ -3,16 +3,17 @@ import classes from './Contact.module.scss';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
-import support from '../../assets/images/support.png'
 import * as yup from 'yup'
 import Image from '../../components/Image'
 import Paper from '@material-ui/core/Paper'
-import {axiosEmail, body, contactFormHtmlEmail, contactFormTextEmail} from '../../helpers'
+import {ASSETS_URL, axiosEmail, body, contactFormHtmlEmail, contactFormTextEmail} from '../../helpers'
 import Loader from '../../components/Loader'
 import FormRender, {FormErrors} from '../../hoc/FormRender'
 import {shallowEqual, useDispatch, useSelector} from 'react-redux'
 import {AppStateType} from '../../types'
 import {appStatusAction} from '../../store/Actions'
+
+const support = ASSETS_URL + '/images/support.png'
 
 interface ContactForm {
     fullName: string
@@ -62,7 +63,7 @@ const Contact: React.FC = props => {
 
     useEffect(() => {
         dispatch(appStatusAction(false, false, ''))
-    }, [])
+    }, [dispatch])
 
     const handleSubmit = async (value: ContactForm) => {
         try {

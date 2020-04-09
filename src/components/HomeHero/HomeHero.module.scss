@@ -1,4 +1,4 @@
-$height: calc(var(--vh, 1vh) * 100);
+@import "../../index.scss";
 
 .Hero {
   height: $height;
@@ -24,31 +24,31 @@ $height: calc(var(--vh, 1vh) * 100);
 
     .Item1 {
       height: $height;
-      background: #f68c1e url("../../assets/images/passion.jpg") no-repeat fixed center/cover;
+      background: #f68c1e url($assets + "/images/passion.jpg") no-repeat fixed center/cover;
       //background: #f68c1e;
     }
 
     .Item2 {
       height: $height;
-      background: #f68c1e url("../../assets/images/explore.jpg") no-repeat fixed center/cover;
+      background: #f68c1e url($assets + "/images/explore.jpg") no-repeat fixed center/cover;
       //background: #f68c1e;
     }
 
     .Item3 {
       height: $height;
-      background: #f68c1e url("../../assets/images/discover.jpg") no-repeat fixed center/cover;
+      background: #f68c1e url($assets + "/images/discover.jpg") no-repeat fixed center/cover;
       //background: #f68c1e;
     }
 
     .Item4 {
       height: $height;
-      background: #f68c1e url("../../assets/images/create.jpg") no-repeat fixed center/cover;
+      background: #f68c1e url($assets + "/images/create.jpg") no-repeat fixed center/cover;
       //background: #f68c1e;
     }
 
     .Item5 {
       height: $height;
-      background: #f68c1e url("../../assets/images/deliver.jpg") no-repeat fixed bottom center/cover;
+      background: #f68c1e url($assets + "/images/deliver.jpg") no-repeat fixed bottom center/cover;
       //background: #f68c1e;
     }
   }
