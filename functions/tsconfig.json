@@ -6,7 +6,7 @@
     "sourceMap": false,
     "strictPropertyInitialization": false,
     "strict": true,
-    "target": "es2017",
+    "target": "es5",
     "baseUrl": "./src",
     "alwaysStrict": true,
     "noImplicitAny": true,
@@ -15,16 +15,8 @@
     "esModuleInterop": true,
     "downlevelIteration": true,
     "moduleResolution": "node",
-    "lib": [
-      "es2018",
-      "es2017",
-      "es2015",
-      "dom",
-      "es6"
-    ]
+    "lib": ["es2018", "es2017", "es2015", "dom", "es6"]
   },
   "compileOnSave": true,
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

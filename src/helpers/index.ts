@@ -1,54 +1,66 @@
-import axios, {AxiosRequestConfig} from 'axios'
+import axios, { AxiosRequestConfig } from "axios";
 
-
-const BASE_URL = process.env.REACT_APP_API_URL
-export const ASSETS_URL = process.env.REACT_APP_GITHUB_ASSETS_URL
+const BASE_URL =
+  window.location.hostname === "localhost"
+    ? process.env.REACT_APP_EMU_API
+    : process.env.REACT_APP_API_URL;
+export const ASSETS_URL = process.env.REACT_APP_GITHUB_ASSETS_URL;
 
 export function axiosClient() {
-    let defaultOptions: AxiosRequestConfig = {
-        baseURL: BASE_URL
-    }
+  let defaultOptions: AxiosRequestConfig = {
+    baseURL: BASE_URL,
+  };
 
-    return axios.create(defaultOptions)
+  return axios.create(defaultOptions);
 }
 
 export function axiosEmail() {
-    let defaultOptions: AxiosRequestConfig = {
-        baseURL: process.env.REACT_APP_EMAIL_URL,
-        headers: {
-            accept: 'application/json',
-            'content-type': 'application/json',
-            'api-key': process.env.REACT_APP_KEY
-        }
-    }
+  let defaultOptions: AxiosRequestConfig = {
+    baseURL: process.env.REACT_APP_EMAIL_URL,
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "api-key": process.env.REACT_APP_KEY,
+    },
+  };
 
-    return axios.create(defaultOptions)
+  return axios.create(defaultOptions);
 }
 
-export const body = (sendName: string, sendEmail: string, subject: string, bodyHtml: string, bodyText: string) => {
-    return {
-        sender: {
-            name: sendName,
-            email: sendEmail
-        },
-        to: [
-            {
-                name: process.env.REACT_APP_TO_EMAIL_1_NAME,
-                email: process.env.REACT_APP_TO_EMAIL_1_EMAIL
-            }
-        ],
-        replyTo: {
-            name: sendName,
-            email: sendEmail
-        },
-        subject: subject,
-        htmlContent: bodyHtml,
-        textContent: bodyText
-    }
-}
+export const body = (
+  sendName: string,
+  sendEmail: string,
+  subject: string,
+  bodyHtml: string,
+  bodyText: string
+) => {
+  return {
+    sender: {
+      name: sendName,
+      email: sendEmail,
+    },
+    to: [
+      {
+        name: process.env.REACT_APP_TO_EMAIL_1_NAME,
+        email: process.env.REACT_APP_TO_EMAIL_1_EMAIL,
+      },
+    ],
+    replyTo: {
+      name: sendName,
+      email: sendEmail,
+    },
+    subject: subject,
+    htmlContent: bodyHtml,
+    textContent: bodyText,
+  };
+};
 
-export const contactFormHtmlEmail = (fullName: string, message: string, phone?: string) => {
-    return `
+export const contactFormHtmlEmail = (
+  fullName: string,
+  message: string,
+  phone?: string
+) => {
+  return `
 <div>
     <div>
         <div><b>Name:</b></div>
@@ -57,7 +69,7 @@ export const contactFormHtmlEmail = (fullName: string, message: string, phone?: 
     </div>
     <div>
         <div><b>Phone:</b></div>
-        <div>${phone ? phone : 'No Number Given'}</div>
+        <div>${phone ? phone : "No Number Given"}</div>
         <br />
     </div>
     <div>
@@ -66,37 +78,41 @@ export const contactFormHtmlEmail = (fullName: string, message: string, phone?: 
         <br />
     </div>
 </div>        
-     `
-}
+     `;
+};
 
-export const contactFormTextEmail = (fullName: string, message: string, phone?: string) => {
-    return `
+export const contactFormTextEmail = (
+  fullName: string,
+  message: string,
+  phone?: string
+) => {
+  return `
         Full Name: ${fullName}, 
-        Phone No.: ${phone ? phone : 'No Number Given.'},
+        Phone No.: ${phone ? phone : "No Number Given."},
         Message: ${message} 
-     `
-}
+     `;
+};
 
 export const careerFormHtmlEmail = (
-    fullName: string,
-    dob: string | null | Date,
-    gender: string,
-    maritalStatus: string,
-    address: string,
-    city: string,
-    country: string,
-    phone: string,
-    email: string,
-    highestQualification: string,
-    education: string,
-    institution: string,
-    status: string,
-    workHistory: string,
-    experience: string,
-    disability: string,
-    strengths: string
+  fullName: string,
+  dob: string | null | Date,
+  gender: string,
+  maritalStatus: string,
+  address: string,
+  city: string,
+  country: string,
+  phone: string,
+  email: string,
+  highestQualification: string,
+  education: string,
+  institution: string,
+  status: string,
+  workHistory: string,
+  experience: string,
+  disability: string,
+  strengths: string
 ) => {
-    return `
+  return `
 <div>
     <div>
         <div><b>Name:</b></div>
@@ -184,29 +200,29 @@ export const careerFormHtmlEmail = (
         <br />
     </div>
 </div>        
-     `
-}
+     `;
+};
 
 export const careerFormTextEmail = (
-    fullName: string,
-    dob: string | null | Date,
-    gender: string,
-    maritalStatus: string,
-    address: string,
-    city: string,
-    country: string,
-    phone: string,
-    email: string,
-    highestQualification: string,
-    education: string,
-    institution: string,
-    status: string,
-    workHistory: string,
-    experience: string,
-    disability: string,
-    strengths: string
+  fullName: string,
+  dob: string | null | Date,
+  gender: string,
+  maritalStatus: string,
+  address: string,
+  city: string,
+  country: string,
+  phone: string,
+  email: string,
+  highestQualification: string,
+  education: string,
+  institution: string,
+  status: string,
+  workHistory: string,
+  experience: string,
+  disability: string,
+  strengths: string
 ) => {
-    return `
+  return `
 Name: ${fullName},
 Date of Birth: ${dob}, 
 Gender: ${gender},
@@ -224,9 +240,5 @@ Employment Record: ${workHistory},
 Experience in Years: ${experience}, 
 Disability: ${disability}, 
 Strengths: ${strengths}
-     `
-}
-
-
-
-
+     `;
+};

@@ -1,59 +1,70 @@
-import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
-import express from 'express'
-import cors from 'cors'
-import {errorMiddleware} from './Middleware'
-import {CareerDto, ContactDto} from './Dto'
+import * as functions from "firebase-functions";
+import express, { Request, Response } from "express";
+import cors from "cors";
+import { validationMiddleware, isAuth } from "./Middleware";
+import {
+  CareerDto,
+  ContactDto,
+  UserRegistrationDto,
+  UserLoginDto,
+  EditUserDetail,
+  UserPasswordChange,
+} from "./Dto";
+import { Controllers } from "./Controllers";
+import { RequestWithUserID } from "./Interfaces";
 
-admin.initializeApp(functions.config().firebase)
-let db = admin.firestore()
+const app = express();
+const routes = express.Router();
+const controllers = new Controllers();
 
-const app = express()
+app.use(cors({ origin: true }));
+app.use(express.json());
 
-app.use(cors({origin: true}))
-app.use(errorMiddleware)
+routes.get("/hello", isAuth, (expReq: Request, res: Response) => {
+  const req = expReq as RequestWithUserID;
+  res
+    .status(200)
+    .json({ message: "Hello World! " + req.userId + " " + req.userRole });
+});
 
+routes.post(
+  "/register",
+  validationMiddleware(UserRegistrationDto),
+  controllers.userRegister
+);
 
-app.get("/hello", (req: express.Request, res: express.Response) => {
-    res.status(200).json({message: "Hello World"})
-})
+routes.post(
+  "/login",
+  validationMiddleware(UserLoginDto),
+  controllers.userLogin
+);
 
-app.post('/contact', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    try {
-        let data: ContactDto = req.body
+routes.get("/allUsers", controllers.listAllUsers);
 
-        data = {
-            ...data,
-            timestamp: new Date().toISOString()
-        }
+routes.get("/getUser/:id", controllers.getUserDetail);
 
-        const contactRef = await db.collection('contact').add(data)
-        const contact = await contactRef.get()
+routes.post(
+  "/editUser/:id",
+  validationMiddleware(EditUserDetail),
+  controllers.editUserDetail
+);
 
-        res.status(200).json({id: contact.id})
+routes.post(
+  "/editPassword/:id",
+  validationMiddleware(UserPasswordChange),
+  controllers.userPasswordChange
+);
 
-    } catch (error) {
-        next(error)
-    }
-})
+routes.delete("/deleteUser/:id", controllers.deleteUser);
 
-app.post('/career', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    try {
-        let data: CareerDto = req.body
+routes.post(
+  "/contact",
+  validationMiddleware(ContactDto),
+  controllers.addContact
+);
 
-        data = {
-            ...data,
-            timestamp: new Date().toISOString()
-        }
+routes.post("/career", validationMiddleware(CareerDto), controllers.addCareer);
 
-        const careerRef = await db.collection('career').add(data)
-        const career = await careerRef.get()
-
-        res.status(200).json({id: career.id})
-
-    } catch (error) {
-        next(error)
-    }
-})
+app.use(routes);
 
 export const api = functions.https.onRequest(app);

@@ -27,3 +27,6 @@ yarn-error.log*
 .firebaserc
 .env
 /.idea/
+
+/functions/dummyData.ts
+/functions/passwordAdmin.ts
