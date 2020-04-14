@@ -7,8 +7,8 @@ export class UserModel {
   public department: string;
   public designation: string;
   public role: string;
-  public supervisorIds: string[];
+  public supervisorEmail: string[];
   public clientTime: string;
-  public isVerified: boolean;
+  public isActive: boolean;
   public timestamp: string;
 }

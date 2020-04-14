@@ -6,11 +6,42 @@ const BASE_URL =
     : process.env.REACT_APP_API_URL;
 export const ASSETS_URL = process.env.REACT_APP_GITHUB_ASSETS_URL;
 
+export function axiosWithAuth() {
+  let defaultOptions: AxiosRequestConfig = {
+    baseURL: BASE_URL,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  // Create instance
+  let instance = axios.create(defaultOptions);
+
+  // Set the AUTH token for any request
+  instance.interceptors.request.use(function (config) {
+    const token = localStorage.getItem("token"); // store.getState().authStore.accessToken // localStorage.getItem('token');
+    // eslint-disable-next-line no-useless-concat
+    config.headers.Authorization =
+      token + " $2a$12$2nEhn.w/tpRO8LzX1D7bueNu05.WxZlS6hpBR8AkofGton7R1KWiO";
+    return config;
+  });
+
+  return instance;
+}
+
 export function axiosClient() {
   let defaultOptions: AxiosRequestConfig = {
     baseURL: BASE_URL,
+    headers: {
+      "Content-Type": "application/json",
+      // eslint-disable-next-line no-useless-concat
+      Authorization:
+        "Barear " +
+        "b " +
+        "$2a$12$2nEhn.w/tpRO8LzX1D7bueNu05.WxZlS6hpBR8AkofGton7R1KWiO",
+    },
   };
-
+  // Create instance
   return axios.create(defaultOptions);
 }
 
@@ -241,4 +272,76 @@ Experience in Years: ${experience},
 Disability: ${disability}, 
 Strengths: ${strengths}
      `;
+};
+
+export const leaveApplicationHtmlEmail = (
+  fullName: string,
+  department: string,
+  designation: string,
+  startDate: string,
+  endDate: string,
+  days: number,
+  reason: string
+) => {
+  return `
+<div>
+    <div>
+        <div><b>Name:</b></div>
+        <div>${fullName} - [${designation} - ${department}]</div>
+        <br />
+    </div>
+    <div>
+        <div><b>Dates:</b></div>
+        <div>${startDate} to ${endDate} [${days} ${
+    days > 0 ? "Days" : "Day"
+  }]</div>
+        <br />
+    </div>
+    <div>
+        <div><b>Reason:</b></div>
+        <div>${reason}</div>
+        <br />
+    </div>
+</div>        
+     `;
+};
+
+export const leaveApplicationTextEmail = (
+  fullName: string,
+  department: string,
+  designation: string,
+  startDate: string,
+  endDate: string,
+  days: number,
+  reason: string
+) => {
+  return `
+        Full Name: ${fullName} - [${designation} - ${department}], 
+        Dates:${startDate} to ${endDate} [${days} ${days > 0 ? "Days" : "Day"}]
+        Reason: ${reason},
+     `;
+};
+
+export const applicationBody = (
+  sendName: string,
+  sendEmail: string,
+  toList: { email: string }[],
+  subject: string,
+  bodyHtml: string,
+  bodyText: string
+) => {
+  return {
+    sender: {
+      name: sendName,
+      email: sendEmail,
+    },
+    to: [...toList],
+    replyTo: {
+      name: sendName,
+      email: sendEmail,
+    },
+    subject: subject,
+    htmlContent: bodyHtml,
+    textContent: bodyText,
+  };
 };

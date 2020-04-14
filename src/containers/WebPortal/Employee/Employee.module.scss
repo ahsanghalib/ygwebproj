@@ -1,0 +1,78 @@
+.UserForm {
+  padding: 15px;
+  margin-top: 15px;
+
+  .Header {
+    text-transform: uppercase;
+    font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    button {
+      margin-top: 15px;
+    }
+
+    @media only screen and (min-width: 769px) {
+      flex-direction: row;
+
+      button {
+        margin-top: 0;
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .IsActive {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .PasswordField {
+      display: grid;
+      width: 100%;
+      grid-template-columns: 2fr 2fr 1fr;
+      justify-items: center;
+      align-items: center;
+      column-gap: 15px;
+      justify-content: space-between;
+      div {
+        width: 100%;
+      }
+      
+      .Edit {
+        text-align: end;
+      }
+
+
+      @media only screen and (max-width: 769px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .BtnGroup {
+      margin-top: 50px;
+    }
+  }
+}
+
+.EmployeeList {
+  padding: 15px;
+  margin-top: 15px;
+
+  .Header {
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 15px;
+  }
+
+  .NoRecord {
+    font-weight: 800;
+  }
+}

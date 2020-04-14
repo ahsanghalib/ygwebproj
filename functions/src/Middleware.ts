@@ -32,18 +32,14 @@ export function validationMiddleware<T>(
   };
 }
 
-export function isAuth(
-  expReq: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const req = expReq as RequestWithUserID
+export function isAuth(expReq: Request, res: Response, next: NextFunction) {
+  const req = expReq as RequestWithUserID;
 
   const authHeader = req.get("Authorization");
   const secret = JWT_SECRET;
 
   if (!authHeader) {
-    res.status(400).json({ errors: "Unauthorized Access! No Header" });
+    res.status(400).json({ error: "Unauthorized Access! No Header" });
     return;
   }
 
@@ -54,17 +50,36 @@ export function isAuth(
   try {
     decodedToken = jwt.verify(token, secret) as DataStoredInToken;
   } catch (err) {
-    res.status(400).json({ errors: 'Invalid JWT Token' });
+    res.status(400).json({ error: "Invalid JWT Token" });
     return;
   }
 
   if (!decodedToken) {
-    res.status(400).json({ errors: "Unauthorized Access! Wrong Token" });
+    res.status(400).json({ error: "Unauthorized Access! Wrong Token" });
     return;
   }
 
   req.userId = decodedToken.user_id;
   req.userRole = decodedToken.user_role;
 
+  next();
+}
+
+export function checkApiKey(req: Request, res: Response, next: NextFunction) {
+  const header = req.get("Authorization");
+
+  if (!header) {
+    res.status(400).json({ error: "Header not sent" });
+    return;
+  }
+
+  const key = header.split(" ")[2];
+
+  const secretKey =
+    "$2a$12$2nEhn.w/tpRO8LzX1D7bueNu05.WxZlS6hpBR8AkofGton7R1KWiO";
+  if (key !== secretKey) {
+    res.status(400).json({ error: "Invalid key" });
+    return;
+  }
   next();
 }

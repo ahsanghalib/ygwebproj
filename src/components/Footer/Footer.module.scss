@@ -41,8 +41,8 @@
           }
         }
 
-        .Address {
-        }
+        // .Address {
+        // }
 
         .Heading {
           font-size: .8em;
@@ -71,6 +71,15 @@
     font-family: "Open Sans", sans-serif;
     font-size: .8rem;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+
+    @media only screen and (max-width: 769px) {
+      flex-direction: column;
+
+      .Row:first-child {
+        margin-bottom: 15px;
+      }
+    }
   }
 }

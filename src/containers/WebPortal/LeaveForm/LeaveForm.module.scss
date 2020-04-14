@@ -1,0 +1,21 @@
+.Application {
+  padding: 15px;
+  margin-top: 15px;
+
+  .Header {
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 25px;
+    .DatesField {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 25px;
+    }
+  }
+}

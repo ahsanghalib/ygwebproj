@@ -1,7 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import { DataStoredInToken, TokenData } from "./Interfaces";
 
-export const JWT_SECRET = "Q9jgg6Qy,#vrg~VrVa9'75b9{w5^b?"
+export const JWT_SECRET = "Q9jgg6Qy,#vrg~VrVa9'75b9{w5^b?";
 
 export function createToken(userId: string, role: string): TokenData {
   const expiresIn = 3600 * 24 * 100;
@@ -22,3 +22,4 @@ export function createToken(userId: string, role: string): TokenData {
 
   return { expiresIn, accessToken };
 }
+

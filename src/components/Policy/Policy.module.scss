@@ -1,0 +1,28 @@
+.Policies {
+    font-size: 0.8rem;
+    font-family: "Courier New", Courier, monospace;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 25px;
+    margin-top: 15px;
+    // padding: 15px;
+
+    @media only screen and (max-width: 769px) {
+      grid-template-columns: 1fr;
+      row-gap: 25px;
+    }
+
+    div {
+        background-color: #ddd;
+        padding: 15px;
+    }
+
+    .PolicyHeader {
+      font-family: "Courier New", Courier, monospace;
+      margin-bottom: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      background-color: white;
+    }
+  }

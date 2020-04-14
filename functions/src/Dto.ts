@@ -4,6 +4,7 @@ import {
   MinLength,
   IsEmail,
   IsArray,
+  IsBoolean,
 } from "class-validator";
 
 export class ContactDto {
@@ -147,26 +148,15 @@ export class UserRegistrationDto {
   public role: string;
 
   @IsArray({ message: "Please give supervisor ids" })
-  public supervisorIds: string[];
+  public supervisorEmail: string[];
 
   @IsString({ message: "Client time is empty" })
   @MinLength(2, { message: "Client time is too short" })
   public clientTime: string;
 
-  public isVerified: boolean;
+  @IsBoolean({ message: "Please enter isActive" })
+  public isActive: boolean;
   public timestamp: string;
-}
-
-export class UserPasswordChange {
-
-  @IsString({ message: "Please enter password" })
-  @MinLength(8, { message: "Password is too short" })
-  public password: string;
-
-  @IsString({ message: "Please enter password" })
-  @MinLength(8, { message: "Confirm password is too short" })
-  public confirmPassword: string;
-
 }
 
 export class EditUserDetail {
@@ -194,14 +184,22 @@ export class EditUserDetail {
   public role: string;
 
   @IsArray({ message: "Please give supervisor ids" })
-  public supervisorIds: string[];
+  public supervisorEmail: string[];
 
   @IsString({ message: "Client time is empty" })
   @MinLength(2, { message: "Client time is too short" })
   public clientTime: string;
 
-  public isVerified: boolean;
+  @IsBoolean({ message: "Please enter isActive" })
+  public isActive: boolean;
+
   public timestamp: string;
+
+  public editPassword: boolean;
+
+  public password: string;
+
+  public confirmPassword: string;
 }
 
 export class UserLoginDto {
@@ -210,4 +208,9 @@ export class UserLoginDto {
 
   @IsString({ message: "Please enter password" })
   public password: string;
+}
+
+export class CheckUserDto {
+  @IsString({ message: 'Please give valid JWT token' })
+  public jwtToken: string
 }

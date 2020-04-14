@@ -1,14 +1,13 @@
 import * as functions from "firebase-functions";
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { validationMiddleware, isAuth } from "./Middleware";
+import { validationMiddleware, isAuth, checkApiKey } from "./Middleware";
 import {
   CareerDto,
   ContactDto,
   UserRegistrationDto,
   UserLoginDto,
   EditUserDetail,
-  UserPasswordChange,
 } from "./Dto";
 import { Controllers } from "./Controllers";
 import { RequestWithUserID } from "./Interfaces";
@@ -28,42 +27,39 @@ routes.get("/hello", isAuth, (expReq: Request, res: Response) => {
 });
 
 routes.post(
-  "/register",
+  "/register", checkApiKey, 
   validationMiddleware(UserRegistrationDto),
   controllers.userRegister
 );
 
 routes.post(
-  "/login",
+  "/login", checkApiKey,
   validationMiddleware(UserLoginDto),
   controllers.userLogin
 );
 
-routes.get("/allUsers", controllers.listAllUsers);
+routes.post("/checkUserStatus", checkApiKey, controllers.checkUserStatus);
 
-routes.get("/getUser/:id", controllers.getUserDetail);
+routes.get("/allUsers", checkApiKey, isAuth, controllers.listAllUsers);
+
+routes.get("/getUser/:id", checkApiKey, isAuth, controllers.getUserDetail);
 
 routes.post(
-  "/editUser/:id",
+  "/editUser/:id", checkApiKey,
+  isAuth,
   validationMiddleware(EditUserDetail),
   controllers.editUserDetail
 );
 
-routes.post(
-  "/editPassword/:id",
-  validationMiddleware(UserPasswordChange),
-  controllers.userPasswordChange
-);
-
-routes.delete("/deleteUser/:id", controllers.deleteUser);
+routes.delete("/deleteUser/:id", checkApiKey, isAuth, controllers.deleteUser);
 
 routes.post(
-  "/contact",
+  "/contact", checkApiKey,
   validationMiddleware(ContactDto),
   controllers.addContact
 );
 
-routes.post("/career", validationMiddleware(CareerDto), controllers.addCareer);
+routes.post("/career", checkApiKey, validationMiddleware(CareerDto), controllers.addCareer);
 
 app.use(routes);
 

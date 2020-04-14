@@ -2,16 +2,18 @@ import * as exp from "express";
 import * as bcrypt from "bcryptjs";
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
+import * as jwt from "jsonwebtoken";
 import {
   CareerDto,
   ContactDto,
   UserRegistrationDto,
   UserLoginDto,
   EditUserDetail,
-  UserPasswordChange,
+  CheckUserDto,
 } from "./Dto";
-import { createToken } from "./Helpers";
+import { createToken, JWT_SECRET } from "./Helpers";
 import { UserModel } from "./Models";
+import { DataStoredInToken } from "Interfaces";
 
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
@@ -49,9 +51,9 @@ export class Controllers {
         designation: data.designation,
         role: data.role,
         clientTime: data.clientTime,
-        supervisorIds: data.supervisorIds,
+        supervisorEmail: data.supervisorEmail,
         timestamp: new Date().toISOString(),
-        isVerified: false,
+        isActive: data.isActive,
       };
 
       await collection.add(userData);
@@ -78,8 +80,8 @@ export class Controllers {
         return {
           id: d.id,
           role: d.data().role,
-          supervisorIds: d.data().supervisorIds,
-          isVerified: d.data().isVerified,
+          supervisorEmail: d.data().supervisorEmail,
+          isActive: d.data().isActive,
           fullName: d.data().fullName,
           clientTime: d.data().clientTime,
           password: d.data().password,
@@ -90,6 +92,11 @@ export class Controllers {
           timestamp: d.data().timestamp,
         };
       })[0];
+
+      if (!currentUser.isActive) {
+        res.status(400).json({ error: "This user is not active." });
+        return;
+      }
 
       const checkPassword = await bcrypt.compare(
         data.password,
@@ -107,15 +114,59 @@ export class Controllers {
         userData: {
           id: currentUser.id,
           role: currentUser.role,
-          supervisorIds: currentUser.supervisorIds,
-          isVerified: currentUser.isVerified,
+          supervisorEmail: currentUser.supervisorEmail,
+          isActive: currentUser.isActive,
           fullName: currentUser.fullName,
-          clientTime: currentUser.clientTime,
           designation: currentUser.designation,
           department: currentUser.department,
           email: currentUser.email,
           doj: currentUser.doj,
-          timestamp: currentUser.timestamp,
+        },
+      });
+    } catch (err) {
+      res.status(500).json({ error: err });
+      return;
+    }
+  }
+
+  public async checkUserStatus(req: exp.Request, res: exp.Response) {
+    try {
+      const data: CheckUserDto = req.body;
+      const collection = db.collection("userRecords");
+      const token = data.jwtToken.split(" ")[1];
+      let decodedToken: any;
+
+      try {
+        decodedToken = jwt.verify(token, JWT_SECRET) as DataStoredInToken;
+      } catch (err) {
+        res.status(400).json({ error: "Invalid JWT Token" });
+        return;
+      }
+
+      if (!decodedToken) {
+        res.status(400).json({ error: "Unauthorized Access! Wrong Token" });
+        return;
+      }
+
+      const user = await collection.doc(decodedToken.user_id).get();
+
+      if (!user.exists) {
+        res.status(400).json({ error: "Unauthorized Access! Wrong User" });
+        return;
+      }
+
+      res.status(200).json({
+        message: "Okay",
+        userData: {
+          id: user.id,
+          role: user.data()!.role,
+          supervisorEmail: user.data()!.supervisorEmail,
+          isActive: user.data()!.isActive,
+          fullName: user.data()!.fullName,
+          designation: user.data()!.designation,
+          department: user.data()!.department,
+          email: user.data()!.email,
+          doj: user.data()!.doj,
         },
       });
     } catch (err) {
@@ -127,19 +178,23 @@ export class Controllers {
   public async listAllUsers(req: exp.Request, res: exp.Response) {
     try {
       const sortBy = req.query.sort ? req.query.sort : "fullName";
-      const limitBy = req.query.limit ? parseInt(req.query.limit, 10) : 10;
-      const nextAfter = req.query.after ? req.query.after : "";
+      // const limitBy = req.query.limit ? parseInt(req.query.limit, 10) : 10;
+      // const nextAfter = req.query.after ? req.query.after : "";
 
       const collection = db.collection("userRecords").orderBy(sortBy);
 
-      const total = await collection.get().then((d) => {
-        return d.size;
-      });
+      // const total = await collection.get().then((d) => {
+      //   return d.size;
+      // });
 
-      const queryRef = await collection
-        .startAfter(nextAfter)
-        .limit(limitBy)
-        .get();
+      // const queryRef = await collection
+      //   .startAfter(nextAfter)
+      //   .limit(limitBy)
+      //   .get();
+
+      const queryRef = await collection.get();
+
+      const total = queryRef.size;
 
       if (queryRef.docs.length <= 0) {
         res.status(200).json({ message: "No Result" });
@@ -149,15 +204,20 @@ export class Controllers {
       const query = queryRef.docs.map((d) => {
         return {
           id: d.id,
-          ...d.data(),
           fullName: d.data().fullName,
-          password: "",
+          email: d.data().email,
+          designation: d.data().designation,
+          department: d.data().department,
+          isActive: d.data().isActive,
+          doj: d.data().doj,
+          role: d.data().role,
+          supervisorEmail: d.data().supervisorEmail,
         };
       });
 
       const last = query[query.length - 1].fullName;
 
-      res.status(200).json({ query, total, last });
+      res.status(200).json({ query, pagination: { total, last } });
     } catch (err) {
       res.status(500).json({ error: err });
       return;
@@ -177,11 +237,18 @@ export class Controllers {
       const userRef = await collection.doc(userId).get();
 
       const user = {
-        ...userRef.data(),
-        password: "",
+        id: userRef.id,
+        role: userRef.data()!.role,
+        supervisorEmail: userRef.data()!.supervisorEmail,
+        isActive: userRef.data()!.isActive,
+        fullName: userRef.data()!.fullName,
+        designation: userRef.data()!.designation,
+        department: userRef.data()!.department,
+        email: userRef.data()!.email,
+        doj: userRef.data()!.doj,
       };
 
-      res.status(200).json({ user, userId });
+      res.status(200).json({ user });
     } catch (err) {
       res.status(500).json({ error: err });
       return;
@@ -200,6 +267,15 @@ export class Controllers {
         return;
       }
 
+      const userRef = await collection.doc(userId).get();
+
+      if (!userRef.exists) {
+        res
+          .status(400)
+          .json({ error: "Invalid user id / User does not exists" });
+        return;
+      }
+
       const userExists = await collection
         .where("email", "==", data.email)
         .get();
@@ -212,10 +288,26 @@ export class Controllers {
         }
       }
 
-      const userRef = await collection.doc(userId).get();
+      let hashPassword = userRef.data()!.password;
+
+      if (data.editPassword) {
+        if (data.password.length < 8) {
+          res
+            .status(400)
+            .json({ error: "Password and Confirm Password mismatch!" });
+          return;
+        }
+        if (data.password !== data.confirmPassword) {
+          res
+            .status(400)
+            .json({ error: "Password and Confirm Password mismatch!" });
+          return;
+        }
+
+        hashPassword = await bcrypt.hash(data.password, 12);
+      }
 
       const userData = {
-        ...userRef.data(),
         fullName: data.fullName,
         email: data.email,
         doj: data.doj,
@@ -223,9 +315,10 @@ export class Controllers {
         designation: data.designation,
         role: data.role,
         clientTime: data.clientTime,
-        supervisorIds: data.supervisorIds,
+        supervisorEmail: data.supervisorEmail,
         timestamp: new Date().toISOString(),
-        isVerified: data.isVerified,
+        isActive: data.isActive,
+        password: hashPassword,
       };
 
       await collection.doc(userId).set({
@@ -233,44 +326,6 @@ export class Controllers {
       });
 
       res.status(200).json({ userId, message: "User Edited" });
-    } catch (err) {
-      res.status(500).json({ error: err });
-      return;
-    }
-  }
-
-  public async userPasswordChange(req: exp.Request, res: exp.Response) {
-    try {
-      const userId = req.params.id;
-      const data: UserPasswordChange = req.body;
-
-      const collection = db.collection("userRecords");
-
-      if (!userId) {
-        res.status(400).json({ error: "Please give user id" });
-        return;
-      }
-
-      if (data.password !== data.confirmPassword) {
-        res
-          .status(400)
-          .json({ error: "Password and Confirm Password mismatch!" });
-        return;
-      }
-
-      const userRef = await collection.doc(userId).get();
-      const hashPassword = await bcrypt.hash(data.password, 12);
-
-      const user = {
-        ...userRef.data(),
-        password: hashPassword,
-      };
-
-      await collection.doc(userId).set({
-        ...user,
-      });
-
-      res.status(200).json({ userId, message: "Password changed" });
     } catch (err) {
       res.status(500).json({ error: err });
       return;
