@@ -22,4 +22,3 @@ export function createToken(userId: string, role: string): TokenData {
 
   return { expiresIn, accessToken };
 }
-
