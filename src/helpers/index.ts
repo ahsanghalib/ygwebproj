@@ -1,11 +1,11 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-// const BASE_URL =
-//   window.location.hostname === "localhost"
-//     ? process.env.REACT_APP_EMU_API
-//     : process.env.REACT_APP_API_URL;
+const BASE_URL =
+  window.location.hostname === "localhost"
+    ? process.env.REACT_APP_EMU_API
+    : process.env.REACT_APP_API_URL;
 
-const BASE_URL = process.env.REACT_APP_API_URL
+// const BASE_URL = process.env.REACT_APP_API_URL
 
 export const ASSETS_URL = process.env.REACT_APP_GITHUB_ASSETS_URL;
 

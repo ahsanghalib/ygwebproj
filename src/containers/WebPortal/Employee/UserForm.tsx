@@ -19,7 +19,8 @@ import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { AppStateType } from "../../../types";
-import { addEmployee, editEmployee } from "../../../store/Effects";
+import { appStatusAction, lastAction } from "../../../store/Actions";
+import { axiosWithAuth } from "../../../helpers";
 
 const validateSchema = yup.object().shape<UserFormModel>({
   fullName: yup.string().required("Required."),
@@ -44,6 +45,7 @@ const validateSchema = yup.object().shape<UserFormModel>({
 interface Props {
   editForm: boolean;
   editId: string | number;
+  cancelButton: () => void;
 }
 
 function UserForm(props: Props) {
@@ -132,11 +134,48 @@ function UserForm(props: Props) {
     }
   }, [props.editForm, props.editId, store.allUsers, store.currentUser]);
 
-  const handleSubmit = (values: UserFormModel) => {
+  const handleSubmit = async (values: UserFormModel) => {
     if (props.editForm && props.editId) {
-      dispatch(editEmployee(values, props.editId));
+      dispatch(appStatusAction(true, false, "Editing Employee"));
+      const record = {
+        ...values,
+        clientTime: new Date().toString(),
+      };
+      axiosWithAuth()
+        .post(`/editUser/${props.editId}`, record)
+        .then((res) => {
+          dispatch(lastAction(res.data.message));
+          dispatch(appStatusAction(false, false, ""));
+          setFormValues(formInitValues);
+          props.cancelButton();
+        })
+        .catch((err) => {
+          if (err.response.data.error) {
+            dispatch(appStatusAction(false, true, err.response.data.error));
+          } else {
+            dispatch(appStatusAction(false, true, err.message));
+          }
+        });
     } else {
-      dispatch(addEmployee(values));
+      dispatch(appStatusAction(true, false, "Adding Employee"));
+      const record = {
+        ...values,
+        clientTime: new Date().toString(),
+      };
+      axiosWithAuth()
+        .post("/register", record)
+        .then((res) => {
+          dispatch(lastAction(res.data.message));
+          dispatch(appStatusAction(false, false, ""));
+          setFormValues(formInitValues);
+        })
+        .catch((err) => {
+          if (err.response.data.error) {
+            dispatch(appStatusAction(false, true, err.response.data.error));
+          } else {
+            dispatch(appStatusAction(false, true, err.message));
+          }
+        });
     }
   };
 
@@ -170,8 +209,23 @@ function UserForm(props: Props) {
     });
   };
 
+  const handleReset = () => {
+    props.cancelButton();
+    setFormValues(formInitValues);
+  };
+
   return (
     <Paper className={classes.UserForm}>
+      {store.responseText !== "" ? (
+        <div
+          style={{
+            color: `${store.error ? "red" : "green"}`,
+            fontSize: "1rem",
+          }}
+        >
+          {store.responseText}
+        </div>
+      ) : null}
       <FormRender
         initValues={formInitValues}
         formValues={formValues}
@@ -181,7 +235,7 @@ function UserForm(props: Props) {
         onSubmit={handleSubmit}
         render={(bag) => {
           return (
-            <form onSubmit={bag.onSubmit} onReset={bag.onReset}>
+            <form onSubmit={bag.onSubmit}>
               <div className={classes.IsActive}>
                 <FormControlLabel
                   control={
@@ -364,11 +418,11 @@ function UserForm(props: Props) {
                   Save
                 </Button>
                 <Button
-                  type={"reset"}
+                  type={"button"}
                   variant="contained"
                   color="default"
                   disableElevation
-                  disabled={isUser}
+                  onClick={handleReset}
                 >
                   Cancel
                 </Button>

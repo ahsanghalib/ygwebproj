@@ -128,6 +128,7 @@ export function deleteUser(userId: string): Effect {
   };
 }
 
+// NOT IN USE
 export function addEmployee(data: UserFormModel): Effect {
   return function (dispatch) {
     dispatch(appStatusAction(true, false, "Adding Employee"));
@@ -151,6 +152,7 @@ export function addEmployee(data: UserFormModel): Effect {
   };
 }
 
+// NOT IN USE...
 export function editEmployee(data: UserFormModel, id: string | number): Effect {
   return function (dispatch) {
     dispatch(appStatusAction(true, false, "Editing Employee"));

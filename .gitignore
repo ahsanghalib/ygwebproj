@@ -30,3 +30,6 @@ yarn-error.log*
 
 /functions/dummyData.ts
 /functions/passwordAdmin.ts
+
+fire*-debug.log
+functions/firestore-debug.log

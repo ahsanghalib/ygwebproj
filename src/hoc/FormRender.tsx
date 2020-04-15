@@ -10,7 +10,7 @@ export interface FormRenderProps<T> {
   initValues: T;
   initErrors: FormErrors<T>;
   validateSchema: Schema<T>;
-  onSubmit: (values: T) => void;
+  onSubmit: (values: T) => Promise<void>;
   render: (props: RenderProps<T>) => JSX.Element;
   setFormValues: (value: SetStateAction<T>) => void;
   formValues: T;
@@ -80,7 +80,7 @@ function FormRender<T>(props: FormRenderProps<T>) {
 
       await props.onSubmit(props.formValues);
 
-      props.setFormValues(props.initValues);
+      // props.setFormValues(props.initValues);
     } catch (err) {
       console.log(err);
     }
