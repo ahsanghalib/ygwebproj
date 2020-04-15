@@ -2,11 +2,10 @@
   padding-bottom: 50px;
   @media only screen and (max-width: 769px) {
     padding-bottom: 100px;
-
   }
   .Header {
     padding: 15px;
-    
+
     .Rows {
       display: flex;
       flex-direction: row;
@@ -27,5 +26,65 @@
       }
     }
   }
- 
+
+  .LeaveAppStatus {
+    padding: 15px;
+    margin-top: 15px;
+
+    .Head {
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .Status {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+
+      .Counter {
+        display: flex;
+        margin-top: 5px;
+        align-items: center;
+        
+        .Title {
+          font-weight: bold;
+        }
+
+        .Count {
+          
+          font-size: 1.5rem;
+          margin-right: 5px;
+          text-align: center;
+          font-weight: bold;
+        }
+
+        .Sent {
+          display: flex;
+          align-items: center;
+          background-color: #ddd;
+          padding: 10px; 
+          border-radius: 1rem; 
+        }
+
+        .Approved {
+          display: flex;
+          align-items: center;
+          background-color: lightgreen;
+          padding: 10px; 
+          border-radius: 1rem; 
+        }
+
+        .Rejected {
+          display: flex;
+          align-items: center;
+          background-color: lightcoral;
+          padding: 10px; 
+          border-radius: 1rem; 
+        }
+      }
+
+      
+    }
+  }
 }

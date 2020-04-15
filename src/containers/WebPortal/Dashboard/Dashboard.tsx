@@ -61,7 +61,6 @@ function Dashboard() {
     setShowLeaveApp(!showLeaveApp);
   };
 
-
   return (
     <div className={classes.Main}>
       {store.loading ? <Loader /> : null}
@@ -108,14 +107,46 @@ function Dashboard() {
           </div>
         </div>
       </Paper>
+
+      <Paper className={classes.LeaveAppStatus}>
+        <div className={classes.Head}>Leave Application Status</div>
+        <div className={classes.Status}>
+          <div className={classes.Counter}>
+            <div className={classes.Sent}>
+              <div className={classes.Count}>0</div>
+              <div className={classes.Title}>Sent</div>
+            </div>
+          </div>
+          <div className={classes.Counter}>
+            <div className={classes.Approved}>
+              <div className={classes.Count}>0</div>
+              <div className={classes.Title}>Approved</div>
+            </div>
+          </div>
+          <div className={classes.Counter}>
+            <div className={classes.Rejected}>
+              <div className={classes.Count}>0</div>
+              <div className={classes.Title}>Rejected</div>
+            </div>
+          </div>
+        </div>
+      </Paper>
       {showLeaveApp ? (
         <LeaveForm />
       ) : store.currentUser.role === "user" ? (
-        <UserForm editForm={true} editId={store.currentUser.id} cancelButton={cancelFormHandlerUser} />
+        <UserForm
+          editForm={true}
+          editId={store.currentUser.id}
+          cancelButton={cancelFormHandlerUser}
+        />
       ) : null}
       {store.currentUser.role === "user" ? <Policy /> : null}
       {showAddEmployee ? (
-        <UserForm editForm={editForm} editId={editId} cancelButton={cancelFormHandler} />
+        <UserForm
+          editForm={editForm}
+          editId={editId}
+          cancelButton={cancelFormHandler}
+        />
       ) : (
         <EmployeeList userAddEditForm={userAddEditForm} />
       )}
