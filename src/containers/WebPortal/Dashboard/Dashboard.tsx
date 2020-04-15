@@ -51,9 +51,16 @@ function Dashboard() {
     setEditId(0);
   };
 
+  const cancelFormHandlerUser = () => {
+    setShowLeaveApp(true);
+    setEditForm(false);
+    setEditId(0);
+  };
+
   const leaveApplicationToggle = () => {
     setShowLeaveApp(!showLeaveApp);
   };
+
 
   return (
     <div className={classes.Main}>
@@ -104,7 +111,7 @@ function Dashboard() {
       {showLeaveApp ? (
         <LeaveForm />
       ) : store.currentUser.role === "user" ? (
-        <UserForm editForm={true} editId={store.currentUser.id} cancelButton={cancelFormHandler} />
+        <UserForm editForm={true} editId={store.currentUser.id} cancelButton={cancelFormHandlerUser} />
       ) : null}
       {store.currentUser.role === "user" ? <Policy /> : null}
       {showAddEmployee ? (
