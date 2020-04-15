@@ -67,6 +67,7 @@ export function UserLogin(data: LoginForm): Effect {
         localStorage.setItem("expiresIn", expirationDate.toString());
         dispatch(userLoginAction(res.data.userData));
         dispatch(appStatusAction(false, false, ""));
+        dispatch(lastAction("User Login"));
       })
       .catch((err) => {
         if (err.response.data.error) {
@@ -92,9 +93,10 @@ export function getAllUsersList(): Effect {
     axiosWithAuth()
       .get(`/allUsers`)
       .then((res) => {
-        dispatch(appStatusAction(false, false, ""));
+        dispatch(appStatusAction(true, false, ""));
         dispatch(tabelPaginationAction(res.data.pagination));
         dispatch(getAllUsersAction(res.data.query));
+        dispatch(appStatusAction(false, false, ""));
       })
       .catch((err) => {
         if (err.response.data.error) {
@@ -191,5 +193,3 @@ export function getEmployee(id: string | number): Effect {
       });
   };
 }
-
-
