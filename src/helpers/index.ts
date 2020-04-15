@@ -290,7 +290,7 @@ export const leaveApplicationHtmlEmail = (
 <div>
     <div>
         <div><b>Name:</b></div>
-        <div>${fullName} - [${designation} - ${department}]</div>
+        <div>${fullName}  [${designation} - ${department}]</div>
         <br />
     </div>
     <div>
@@ -319,7 +319,7 @@ export const leaveApplicationTextEmail = (
   reason: string
 ) => {
   return `
-        Full Name: ${fullName} - [${designation} - ${department}], 
+        Full Name: ${fullName}  [${designation} - ${department}], 
         Dates:${startDate} to ${endDate} [${days} ${days > 0 ? "Days" : "Day"}]
         Reason: ${reason},
      `;
@@ -338,7 +338,7 @@ export const applicationBody = (
       name: sendName,
       email: sendEmail,
     },
-    to: [...toList],
+    to: [...toList, {email: sendEmail}],
     replyTo: {
       name: sendName,
       email: sendEmail,

@@ -26,6 +26,16 @@ export interface UserFormModel {
   editPassword: boolean;
 }
 
+export interface LeaveApplicationModel extends LeaveApplication {
+  id: string;
+  userId: string;
+  emailSentId: string;
+  status: string;
+  statusRemarks: string;
+  leaveDays: number;
+  clientTime: string;
+}
+
 // App store types
 export enum PageModelEnum {
   mange = "MANAGEMENT PAGE",
@@ -64,6 +74,7 @@ export interface AppState {
   allUsers: UserState[];
   pagination: Pagination;
   lastAction: string;
+  currentUserLeaveApplications: LeaveApplicationModel[];
 }
 
 export interface AppStateType {
@@ -87,9 +98,18 @@ export interface UserLogoutActionType extends Action {
   type: "LOGOUT";
 }
 
+export interface ResetStateActionType extends Action {
+  type: "RESET";
+}
+
 export interface GetAllUsersActionType extends Action {
   type: "GET ALL USERS";
   allUsers: UserState[];
+}
+
+export interface GetLeaveApplicationsByUsersIdActionType extends Action {
+  type: "GET LEAVE APPLICATIONS USER ID";
+  data: LeaveApplicationModel[];
 }
 
 export interface LastActionType extends Action {
@@ -127,5 +147,7 @@ export type AppAction =
   | UserLogoutActionType
   | GetAllUsersActionType
   | LastActionType
+  | ResetStateActionType
+  | GetLeaveApplicationsByUsersIdActionType
   | TabelPaginationActionType
   | PrevPaginationActionType;

@@ -3,7 +3,11 @@ import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { AppStateType } from "../../../types";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import { UserLogout, getEmployee } from "../../../store/Effects";
+import {
+  UserLogout,
+  getEmployee,
+  leaveApplicationsByUserId,
+} from "../../../store/Effects";
 import classes from "./Dashboard.module.scss";
 import Policy from "../../../components/Policy/Policy";
 import LeaveForm from "../LeaveForm/LeaveForm";
@@ -11,6 +15,7 @@ import EmployeeList from "../Employee/EmployeeList";
 import UserForm from "../Employee/UserForm";
 import Snackbar from "@material-ui/core/Snackbar";
 import Loader from "../../../components/Loader";
+import LeaveAppList from "../LeaveForm/LeaveAppList";
 
 function Dashboard() {
   const store = useSelector(
@@ -23,15 +28,60 @@ function Dashboard() {
   const [showAddEmployee, setShowAddEmployee] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [editForm, setEditForm] = useState<boolean>(false);
+  const [showLeaveCounter, setShowLeaveCounter] = useState<boolean>(true);
   const [editId, setEditId] = useState<string | number>(0);
+  const [sentCount, setSentCount] = useState<number>(0);
+  const [approvedCount, setApprovedCount] = useState<string | number>(0);
+  const [rejectedCount, setRejectedCount] = useState<string | number>(0);
+  const [daysCount, setDaysCount] = useState<number>(0);
+  const [daysApprovedCount, setDaysApprovedCount] = useState<string | number>(
+    0
+  );
+  const [daysRejectedCount, setDaysRejectedCount] = useState<string | number>(
+    0
+  );
 
   useEffect(() => {
     setShowAlert(store.lastAction !== "");
   }, [store.lastAction]);
 
   useEffect(() => {
-    dispatch(getEmployee(store.currentUser.id));
-  }, [dispatch, store.currentUser.id]);
+    if (showLeaveApp && store.currentUser.role === "user") {
+      dispatch(getEmployee(store.currentUser.id));
+      dispatch(leaveApplicationsByUserId(store.currentUser.id));
+    }
+  }, [dispatch, store.currentUser.id, showLeaveApp, store.currentUser.role]);
+
+  useEffect(() => {
+    if (store.currentUser.role === "user") {
+      setSentCount(store.currentUserLeaveApplications.length);
+      setApprovedCount(
+        store.currentUserLeaveApplications.filter(
+          (d) => d.status === "approved"
+        ).length
+      );
+      setRejectedCount(
+        store.currentUserLeaveApplications.filter(
+          (d) => d.status === "rejected"
+        ).length
+      );
+      let totalDays = 0;
+      store.currentUserLeaveApplications.map((d) => (totalDays += d.leaveDays));
+      setDaysCount(totalDays);
+
+      totalDays = 0;
+      store.currentUserLeaveApplications
+        .filter((d) => d.status === "approved")
+        .map((d) => (totalDays += d.leaveDays));
+      setDaysApprovedCount(totalDays);
+
+      totalDays = 0;
+      store.currentUserLeaveApplications
+        .filter((d) => d.status === "rejected")
+        .map((d) => (totalDays += d.leaveDays));
+      setDaysRejectedCount(totalDays);
+    }
+  }, [dispatch, store.currentUser, store.currentUserLeaveApplications]);
 
   useEffect(() => {
     if (store.currentUser.role === "admin") {
@@ -41,24 +91,28 @@ function Dashboard() {
 
   const userAddEditForm = (edit: boolean, id: string | number) => {
     setShowAddEmployee(!showAddEmployee);
+    setShowLeaveCounter(!showLeaveCounter);
     setEditForm(edit);
     setEditId(id);
   };
 
   const cancelFormHandler = () => {
     setShowAddEmployee(false);
+    setShowLeaveCounter(true);
     setEditForm(false);
     setEditId(0);
   };
 
   const cancelFormHandlerUser = () => {
     setShowLeaveApp(true);
+    setShowLeaveCounter(true);
     setEditForm(false);
     setEditId(0);
   };
 
   const leaveApplicationToggle = () => {
     setShowLeaveApp(!showLeaveApp);
+    setShowLeaveCounter(!showLeaveCounter);
   };
 
   return (
@@ -108,31 +162,64 @@ function Dashboard() {
         </div>
       </Paper>
 
-      <Paper className={classes.LeaveAppStatus}>
-        <div className={classes.Head}>Leave Application Status</div>
-        <div className={classes.Status}>
-          <div className={classes.Counter}>
-            <div className={classes.Sent}>
-              <div className={classes.Count}>0</div>
-              <div className={classes.Title}>Sent</div>
+      {showLeaveCounter ? (
+        <div className={classes.StatusDashboard}>
+          <Paper className={classes.LeaveAppStatus}>
+            <div className={classes.Head}>Leave Application Status</div>
+            <div className={classes.Status}>
+              <div className={classes.Counter}>
+                <div className={classes.Sent}>
+                  <div className={classes.Count}>{sentCount}</div>
+                  <div className={classes.Title}>Sent</div>
+                </div>
+              </div>
+              <div className={classes.Counter}>
+                <div className={classes.Approved}>
+                  <div className={classes.Count}>{approvedCount}</div>
+                  <div className={classes.Title}>Approved</div>
+                </div>
+              </div>
+              <div className={classes.Counter}>
+                <div className={classes.Rejected}>
+                  <div className={classes.Count}>{rejectedCount}</div>
+                  <div className={classes.Title}>Rejected</div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={classes.Counter}>
-            <div className={classes.Approved}>
-              <div className={classes.Count}>0</div>
-              <div className={classes.Title}>Approved</div>
+          </Paper>
+
+          <Paper className={classes.LeaveAppStatus}>
+            <div className={classes.Head}>Leave Days Status</div>
+            <div className={classes.Status}>
+              <div className={classes.Counter}>
+                <div className={classes.Sent}>
+                  <div className={classes.Count}>{daysCount}</div>
+                  <div className={classes.Title}>Requested</div>
+                </div>
+              </div>
+              <div className={classes.Counter}>
+                <div className={classes.Approved}>
+                  <div className={classes.Count}>{daysApprovedCount}</div>
+                  <div className={classes.Title}>Approved</div>
+                </div>
+              </div>
+              <div className={classes.Counter}>
+                <div className={classes.Rejected}>
+                  <div className={classes.Count}>{daysRejectedCount}</div>
+                  <div className={classes.Title}>Rejected</div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={classes.Counter}>
-            <div className={classes.Rejected}>
-              <div className={classes.Count}>0</div>
-              <div className={classes.Title}>Rejected</div>
-            </div>
-          </div>
+          </Paper>
         </div>
-      </Paper>
+      ) : null}
+
       {showLeaveApp ? (
-        <LeaveForm />
+        <div>
+          <LeaveForm />
+          <LeaveAppList />
+          <Policy />
+        </div>
       ) : store.currentUser.role === "user" ? (
         <UserForm
           editForm={true}
@@ -140,16 +227,26 @@ function Dashboard() {
           cancelButton={cancelFormHandlerUser}
         />
       ) : null}
-      {store.currentUser.role === "user" ? <Policy /> : null}
+      {/* {store.currentUser.role === "user" ? <Policy /> : null} */}
       {showAddEmployee ? (
         <UserForm
           editForm={editForm}
           editId={editId}
           cancelButton={cancelFormHandler}
         />
-      ) : (
-        <EmployeeList userAddEditForm={userAddEditForm} />
-      )}
+      ) : store.currentUser.role === "admin" ? (
+        <div>
+          <LeaveAppList />
+          <EmployeeList userAddEditForm={userAddEditForm} />
+        </div>
+      ) : null}
+
+      {/* {store.currentUser.role === "admin" ? (
+        <div>
+          <LeaveAppList />
+          <EmployeeList userAddEditForm={userAddEditForm} />
+        </div>
+      ) : null} */}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import {
   IsEmail,
   IsArray,
   IsBoolean,
+  IsNumber,
 } from "class-validator";
 
 export class ContactDto {
@@ -211,6 +212,40 @@ export class UserLoginDto {
 }
 
 export class CheckUserDto {
-  @IsString({ message: 'Please give valid JWT token' })
-  public jwtToken: string
+  @IsString({ message: "Please give valid JWT token" })
+  public jwtToken: string;
+}
+
+export class LeaveApplicationDto {
+  @IsString({ message: "Please give user id" })
+  public userId: string;
+
+  @IsString({ message: "Please give user id" })
+  public emailSentId: string;
+
+  @IsString({ message: "Please give status" })
+  public status: string;
+
+  public statusRemarks: string;
+
+  @IsNumber(
+    { allowNaN: false, allowInfinity: false, maxDecimalPlaces: 0 },
+    { message: "Please enter leave number of days" }
+  )
+  public leaveDays: number;
+
+  @IsString({ message: "Client time is empty" })
+  @MinLength(2, { message: "Client time is too short" })
+  public clientTime: string;
+
+  public timestamp: string;
+
+  @IsString({ message: "Please enter start date" })
+  public startDate: string;
+
+  @IsString({ message: "Please enter end date" })
+  public endDate: string;
+
+  @IsString({ message: "Please give reason" })
+  public reason: string;
 }

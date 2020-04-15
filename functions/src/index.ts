@@ -27,13 +27,15 @@ routes.get("/hello", isAuth, (expReq: Request, res: Response) => {
 });
 
 routes.post(
-  "/register", checkApiKey, 
+  "/register",
+  checkApiKey,
   validationMiddleware(UserRegistrationDto),
   controllers.userRegister
 );
 
 routes.post(
-  "/login", checkApiKey,
+  "/login",
+  checkApiKey,
   validationMiddleware(UserLoginDto),
   controllers.userLogin
 );
@@ -45,7 +47,8 @@ routes.get("/allUsers", checkApiKey, isAuth, controllers.listAllUsers);
 routes.get("/getUser/:id", checkApiKey, isAuth, controllers.getUserDetail);
 
 routes.post(
-  "/editUser/:id", checkApiKey,
+  "/editUser/:id",
+  checkApiKey,
   isAuth,
   validationMiddleware(EditUserDetail),
   controllers.editUserDetail
@@ -54,12 +57,32 @@ routes.post(
 routes.delete("/deleteUser/:id", checkApiKey, isAuth, controllers.deleteUser);
 
 routes.post(
-  "/contact", checkApiKey,
+  "/addLeaveApplication",
+  checkApiKey,
+  isAuth,
+  controllers.addLeaveApplication
+);
+
+routes.get(
+  "/getLeaveApplicationByUserId/:id",
+  checkApiKey,
+  isAuth,
+  controllers.getLeaveApplicationByUserId
+);
+
+routes.post(
+  "/contact",
+  checkApiKey,
   validationMiddleware(ContactDto),
   controllers.addContact
 );
 
-routes.post("/career", checkApiKey, validationMiddleware(CareerDto), controllers.addCareer);
+routes.post(
+  "/career",
+  checkApiKey,
+  validationMiddleware(CareerDto),
+  controllers.addCareer
+);
 
 app.use(routes);
 

@@ -27,64 +27,86 @@
     }
   }
 
-  .LeaveAppStatus {
-    padding: 15px;
-    margin-top: 15px;
+  .StatusDashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
 
-    .Head {
-      font-weight: 700;
-      text-align: center;
-      text-transform: uppercase;
+    @media only screen and (max-width: 769px) {
+      grid-template-columns: 1fr;
     }
 
-    .Status {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
+    .LeaveAppStatus {
+      padding: 15px;
+      margin-top: 15px;
+      
+      .Head {
+        font-weight: 700;
+        text-align: center;
+        text-transform: uppercase;
 
-      .Counter {
-        display: flex;
-        margin-top: 5px;
-        align-items: center;
-        
-        .Title {
-          font-weight: bold;
-        }
-
-        .Count {
-          
-          font-size: 1.5rem;
-          margin-right: 5px;
-          text-align: center;
-          font-weight: bold;
-        }
-
-        .Sent {
-          display: flex;
-          align-items: center;
-          background-color: #ddd;
-          padding: 10px; 
-          border-radius: 1rem; 
-        }
-
-        .Approved {
-          display: flex;
-          align-items: center;
-          background-color: lightgreen;
-          padding: 10px; 
-          border-radius: 1rem; 
-        }
-
-        .Rejected {
-          display: flex;
-          align-items: center;
-          background-color: lightcoral;
-          padding: 10px; 
-          border-radius: 1rem; 
+        @media only screen and (max-width: 426px) {
+          text-align: left;
         }
       }
 
-      
+      .Status {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        @media only screen and (max-width: 426px) {
+          flex-direction: column;
+        }
+
+        .Counter {
+          display: flex;
+          margin-top: 5px;
+          align-items: center;
+          margin-right: 15px;
+
+          
+
+          .Title {
+            font-weight: bold;
+          }
+
+          .Count {
+            font-size: 1.5rem;
+            margin-right: 5px;
+            text-align: center;
+            font-weight: bold;
+
+            @media only screen and (max-width: 769px) {
+              font-size: 1rem;
+            }
+          }
+
+          .Sent {
+            display: flex;
+            align-items: center;
+            background-color: #ddd;
+            padding: 10px;
+            border-radius: 1rem;
+          }
+
+          .Approved {
+            display: flex;
+            align-items: center;
+            background-color: lightgreen;
+            padding: 10px;
+            border-radius: 1rem;
+          }
+
+          .Rejected {
+            display: flex;
+            align-items: center;
+            background-color: lightcoral;
+            padding: 10px;
+            border-radius: 1rem;
+          }
+        }
+      }
     }
   }
 }

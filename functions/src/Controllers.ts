@@ -10,6 +10,7 @@ import {
   UserLoginDto,
   EditUserDetail,
   CheckUserDto,
+  LeaveApplicationDto,
 } from "./Dto";
 import { createToken, JWT_SECRET } from "./Helpers";
 import { UserModel } from "./Models";
@@ -352,6 +353,66 @@ export class Controllers {
       await collection.doc(userId).delete();
 
       res.status(200).json({ userId, message: "User Deleted" });
+    } catch (err) {
+      res.status(500).json({ error: err });
+      return;
+    }
+  }
+
+  public async addLeaveApplication(req: exp.Request, res: exp.Response) {
+    try {
+      let data: LeaveApplicationDto = req.body;
+      const collection = db.collection("leaveApplications");
+
+      data = {
+        ...data,
+        timestamp: new Date().toISOString(),
+      };
+
+      const leaveRef = await collection.add(data);
+      const leave = await leaveRef.get();
+
+      res.status(200).json({
+        message: "Thanks you! will contact you shortly." + leave.id,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err });
+      return;
+    }
+  }
+
+  public async getLeaveApplicationByUserId(
+    req: exp.Request,
+    res: exp.Response
+  ) {
+    try {
+      const userId = req.params.id;
+      const collection = db
+        .collection("leaveApplications")
+        .orderBy("clientTime", "desc");
+
+      const leaves = await collection.where("userId", "==", userId).get();
+
+      if (leaves.empty) {
+        res.status(200).json({ leaves: [] });
+        return;
+      }
+
+      const data = leaves.docs.map((d) => {
+        return {
+          id: d.id,
+          userId: d.data().userId,
+          status: d.data().status,
+          statusRemarks: d.data().statusRemarks,
+          leaveDays: d.data().leaveDays,
+          clientTime: d.data().clientTime,
+          startDate: d.data().startDate,
+          endDate: d.data().endDate,
+          reason: d.data().reason,
+        };
+      });
+
+      res.status(200).json({ leaves: data });
     } catch (err) {
       res.status(500).json({ error: err });
       return;

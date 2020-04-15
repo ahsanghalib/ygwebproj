@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -11,12 +11,13 @@ import FormRender, { FormErrors } from "../../../hoc/FormRender";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getEmployee } from "../../../store/Effects";
+import { leaveApplicationsByUserId } from "../../../store/Effects";
 import {
   axiosEmail,
   applicationBody,
   leaveApplicationHtmlEmail,
   leaveApplicationTextEmail,
+  axiosWithAuth,
 } from "../../../helpers";
 import Loader from "../../../components/Loader";
 import { appStatusAction } from "../../../store/Actions";
@@ -60,40 +61,68 @@ function LeaveForm() {
   const handleSubmit = async (values: LeaveApplication) => {
     try {
       dispatch(appStatusAction(true, false, ""));
-      await axiosEmail()
-        .post(
-          "/email",
-          applicationBody(
-            store.currentUser.fullName,
-            store.currentUser.email,
-            emailList,
-            `(Leave Application) - ${store.currentUser.fullName}`,
-            leaveApplicationHtmlEmail(
-              store.currentUser.fullName,
-              store.currentUser.designation,
-              store.currentUser.department,
-              values.startDate!.toString(),
-              values.endDate!.toString(),
-              days,
-              values.reason
-            ),
-            leaveApplicationTextEmail(
-              store.currentUser.fullName,
-              store.currentUser.designation,
-              store.currentUser.department,
-              values.startDate!.toString(),
-              values.endDate!.toString(),
-              days,
-              values.reason
-            )
-          )
-        )
-        .catch((err) => {
-          console.log(err.response.data);
-          throw new Error(err.response.data);
-        });
-      setDays(0);
 
+      // const emailId = await axiosEmail()
+      //   .post(
+      //     "/email",
+      //     applicationBody(
+      //       store.currentUser.fullName,
+      //       store.currentUser.email,
+      //       emailList,
+      //       `(Leave Application) - ${store.currentUser.fullName}`,
+      //       leaveApplicationHtmlEmail(
+      //         store.currentUser.fullName,
+      //         store.currentUser.designation,
+      //         store.currentUser.department,
+      //         values.startDate!.toString(),
+      //         values.endDate!.toString(),
+      //         days,
+      //         values.reason
+      //       ),
+      //       leaveApplicationTextEmail(
+      //         store.currentUser.fullName,
+      //         store.currentUser.designation,
+      //         store.currentUser.department,
+      //         values.startDate!.toString(),
+      //         values.endDate!.toString(),
+      //         days,
+      //         values.reason
+      //       )
+      //     )
+      //   )
+      //   .catch((err) => {
+      //     console.log(err.response.data);
+      //     throw new Error(err.response.data);
+      //   });
+
+      const record = {
+        userId: store.currentUser.id,
+        emailSentId: "testing...", //emailId.data.messageId,
+        endDate: values.endDate,
+        reason: values.reason,
+        startDate: values.startDate,
+        leaveDays: days,
+        status: "open",
+        statusRemarks: "",
+        clientTime: new Date().toString(),
+      };
+
+      axiosWithAuth()
+        .post("/addLeaveApplication", record)
+        .then((res) => {
+          setFormValues(formInitValues);
+        })
+        .catch((err) => {
+          if (err.response.data.error) {
+            dispatch(appStatusAction(false, true, err.response.data.error));
+          } else {
+            dispatch(appStatusAction(false, true, err.message));
+          }
+        });
+
+      setDays(0);
+      
+      dispatch(leaveApplicationsByUserId(store.currentUser.id));
       dispatch(appStatusAction(false, false, "Leave Application Submitted"));
     } catch (err) {
       dispatch(
@@ -106,12 +135,7 @@ function LeaveForm() {
     }
   };
 
-  useEffect(() => {
-    dispatch(getEmployee(store.currentUser.id));
-  }, [dispatch, store.currentUser.id]);
-
   const handleStartDateChange = (date: Date | null) => {
-    console.log(date);
     setFormValues({
       ...formValues,
       startDate: new Date(date !== null ? date : new Date()).toDateString(),
@@ -154,7 +178,7 @@ function LeaveForm() {
           style={{
             color: `${store.error ? "red" : "green"}`,
             fontSize: "2rem",
-            marginTop: '15px'
+            marginTop: "15px",
           }}
         >
           {store.responseText}

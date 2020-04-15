@@ -7,6 +7,8 @@ import {
   getAllUsersAction,
   tabelPaginationAction,
   lastAction,
+  getLeaveApplicationsByUsersIdAction,
+  ResetStateAction,
 } from "./Actions";
 import { axiosClient, axiosWithAuth } from "../helpers";
 
@@ -70,7 +72,7 @@ export function UserLogin(data: LoginForm): Effect {
         dispatch(lastAction("User Login"));
       })
       .catch((err) => {
-        if (err.response.data.error) {
+        if (err.response.data) {
           dispatch(appStatusAction(false, true, err.response.data.error));
         } else {
           dispatch(appStatusAction(false, true, err.message));
@@ -84,6 +86,7 @@ export function UserLogout(): Effect {
     dispatch(userLogoutAction());
     dispatch(appStatusAction(false, false, ""));
     dispatch(lastAction("User Logout"));
+    dispatch(ResetStateAction());
   };
 }
 
@@ -99,7 +102,7 @@ export function getAllUsersList(): Effect {
         dispatch(appStatusAction(false, false, ""));
       })
       .catch((err) => {
-        if (err.response.data.error) {
+        if (err.response.data) {
           dispatch(appStatusAction(false, true, err.response.data.error));
         } else {
           dispatch(appStatusAction(false, true, err.message));
@@ -119,7 +122,7 @@ export function deleteUser(userId: string): Effect {
         dispatch(lastAction(res.data.message));
       })
       .catch((err) => {
-        if (err.response.data.error) {
+        if (err.response.data) {
           dispatch(appStatusAction(false, true, err.response.data.error));
         } else {
           dispatch(appStatusAction(false, true, err.message));
@@ -143,7 +146,7 @@ export function addEmployee(data: UserFormModel): Effect {
         dispatch(appStatusAction(false, false, ""));
       })
       .catch((err) => {
-        if (err.response.data.error) {
+        if (err.response.data) {
           dispatch(appStatusAction(false, true, err.response.data.error));
         } else {
           dispatch(appStatusAction(false, true, err.message));
@@ -167,7 +170,7 @@ export function editEmployee(data: UserFormModel, id: string | number): Effect {
         dispatch(appStatusAction(false, false, ""));
       })
       .catch((err) => {
-        if (err.response.data.error) {
+        if (err.response.data) {
           dispatch(appStatusAction(false, true, err.response.data.error));
         } else {
           dispatch(appStatusAction(false, true, err.message));
@@ -187,7 +190,27 @@ export function getEmployee(id: string | number): Effect {
         dispatch(appStatusAction(false, false, ""));
       })
       .catch((err) => {
-        if (err.response.data.error) {
+        if (err.response.data) {
+          dispatch(appStatusAction(false, true, err.response.data.error));
+        } else {
+          dispatch(appStatusAction(false, true, err.message));
+        }
+      });
+  };
+}
+
+export function leaveApplicationsByUserId(userId: string): Effect {
+  return function (dispatch) {
+    dispatch(appStatusAction(true, false, "Get Leave Applications"));
+    axiosWithAuth()
+      .get(`/getLeaveApplicationByUserId/${userId}`)
+      .then((res) => {
+        dispatch(getLeaveApplicationsByUsersIdAction(res.data.leaves));
+        dispatch(appStatusAction(false, false, ""));
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.data) {
           dispatch(appStatusAction(false, true, err.response.data.error));
         } else {
           dispatch(appStatusAction(false, true, err.message));

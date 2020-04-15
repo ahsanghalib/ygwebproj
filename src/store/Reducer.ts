@@ -26,7 +26,8 @@ const initialState: AppState = {
     last: "",
     total: 0,
   },
-  lastAction: ""
+  lastAction: "",
+  currentUserLeaveApplications: [],
 };
 
 function Reducer(state = initialState, action: AppAction) {
@@ -68,6 +69,10 @@ function Reducer(state = initialState, action: AppAction) {
       return produce(state, (draft) => {
         draft.pagination = action.data;
       });
+    case "GET LEAVE APPLICATIONS USER ID":
+      return produce(state, (draft) => {
+        draft.currentUserLeaveApplications = action.data;
+      });
     case "PAGE MODAL":
       return produce(state, (draft) => {
         draft.pageIndex = action.pageIndex;
@@ -84,6 +89,8 @@ function Reducer(state = initialState, action: AppAction) {
       return produce(state, (draft) => {
         draft.pageIndex -= 1;
       });
+    case "RESET":
+      return (state = initialState);
     default:
       return state;
   }

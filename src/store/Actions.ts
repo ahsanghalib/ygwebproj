@@ -11,6 +11,9 @@ import {
   Pagination,
   TabelPaginationActionType,
   LastActionType,
+  LeaveApplicationModel,
+  GetLeaveApplicationsByUsersIdActionType,
+  ResetStateActionType,
 } from "../types";
 
 export function appStatusAction(
@@ -90,5 +93,20 @@ export function nextPaginationAction(): NextPaginationActionType {
 export function prevPaginationAction(): PrevPaginationActionType {
   return {
     type: "PREV PAGINATION",
+  };
+}
+
+export function ResetStateAction(): ResetStateActionType {
+  return {
+    type: "RESET",
+  };
+}
+
+export function getLeaveApplicationsByUsersIdAction(
+  data: LeaveApplicationModel[]
+): GetLeaveApplicationsByUsersIdActionType {
+  return {
+    type: "GET LEAVE APPLICATIONS USER ID",
+    data: data,
   };
 }
