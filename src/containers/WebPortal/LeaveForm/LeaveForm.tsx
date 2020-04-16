@@ -11,7 +11,6 @@ import FormRender, { FormErrors } from "../../../hoc/FormRender";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { leaveApplicationsByUserId } from "../../../store/Effects";
 import {
   axiosEmail,
   applicationBody,
@@ -28,7 +27,11 @@ const validateSchema = yup.object().shape<LeaveApplication>({
   reason: yup.string().required("Please enter reason."),
 });
 
-function LeaveForm() {
+interface Props {
+  cancelClick: () => void;
+}
+
+function LeaveForm(props: Props) {
   const formInitValues: LeaveApplication = {
     endDate: null,
     reason: "",
@@ -62,42 +65,42 @@ function LeaveForm() {
     try {
       dispatch(appStatusAction(true, false, ""));
 
-      // const emailId = await axiosEmail()
-      //   .post(
-      //     "/email",
-      //     applicationBody(
-      //       store.currentUser.fullName,
-      //       store.currentUser.email,
-      //       emailList,
-      //       `(Leave Application) - ${store.currentUser.fullName}`,
-      //       leaveApplicationHtmlEmail(
-      //         store.currentUser.fullName,
-      //         store.currentUser.designation,
-      //         store.currentUser.department,
-      //         values.startDate!.toString(),
-      //         values.endDate!.toString(),
-      //         days,
-      //         values.reason
-      //       ),
-      //       leaveApplicationTextEmail(
-      //         store.currentUser.fullName,
-      //         store.currentUser.designation,
-      //         store.currentUser.department,
-      //         values.startDate!.toString(),
-      //         values.endDate!.toString(),
-      //         days,
-      //         values.reason
-      //       )
-      //     )
-      //   )
-      //   .catch((err) => {
-      //     console.log(err.response.data);
-      //     throw new Error(err.response.data);
-      //   });
+      const emailId = await axiosEmail()
+        .post(
+          "/email",
+          applicationBody(
+            store.currentUser.fullName,
+            store.currentUser.email,
+            emailList,
+            `(Leave Application) - ${store.currentUser.fullName}`,
+            leaveApplicationHtmlEmail(
+              store.currentUser.fullName,
+              store.currentUser.designation,
+              store.currentUser.department,
+              values.startDate!.toString(),
+              values.endDate!.toString(),
+              days,
+              values.reason
+            ),
+            leaveApplicationTextEmail(
+              store.currentUser.fullName,
+              store.currentUser.designation,
+              store.currentUser.department,
+              values.startDate!.toString(),
+              values.endDate!.toString(),
+              days,
+              values.reason
+            )
+          )
+        )
+        .catch((err) => {
+          console.log(err.response.data);
+          throw new Error(err.response.data);
+        });
 
       const record = {
         userId: store.currentUser.id,
-        emailSentId: "testing...", //emailId.data.messageId,
+        emailSentId: emailId.data.messageId, //emailId.data.messageId,
         endDate: values.endDate,
         reason: values.reason,
         startDate: values.startDate,
@@ -121,8 +124,7 @@ function LeaveForm() {
         });
 
       setDays(0);
-      
-      dispatch(leaveApplicationsByUserId(store.currentUser.id));
+
       dispatch(appStatusAction(false, false, "Leave Application Submitted"));
     } catch (err) {
       dispatch(
@@ -159,6 +161,11 @@ function LeaveForm() {
     setDays(differenceInDays(end, start) + 1);
   };
 
+  const handleCancel = () => {
+    props.cancelClick();
+    setFormValues(formInitValues);
+  };
+
   return (
     <Paper className={classes.Application}>
       {store.loading ? <Loader /> : null}
@@ -193,7 +200,7 @@ function LeaveForm() {
         onSubmit={handleSubmit}
         render={(bag) => {
           return (
-            <form onSubmit={bag.onSubmit} onReset={bag.onReset}>
+            <form onSubmit={bag.onSubmit}>
               <div className={classes.DatesField}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <DatePicker
@@ -255,9 +262,10 @@ function LeaveForm() {
                   Send
                 </Button>
                 <Button
-                  type={"reset"}
+                  type={"button"}
                   variant="contained"
                   color="default"
+                  onClick={handleCancel}
                   disableElevation
                 >
                   Cancel

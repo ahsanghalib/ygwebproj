@@ -56,6 +56,8 @@ routes.post(
 
 routes.delete("/deleteUser/:id", checkApiKey, isAuth, controllers.deleteUser);
 
+routes.get("/dashBoardInfo", checkApiKey, isAuth, controllers.dashBoardInfo);
+
 routes.post(
   "/addLeaveApplication",
   checkApiKey,
@@ -68,6 +70,13 @@ routes.get(
   checkApiKey,
   isAuth,
   controllers.getLeaveApplicationByUserId
+);
+
+routes.get(
+  "/getAllLeaveApplications",
+  checkApiKey,
+  isAuth,
+  controllers.getAllLeaveApplications
 );
 
 routes.post(

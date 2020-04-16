@@ -61,6 +61,13 @@ export interface Pagination {
   last: string;
 }
 
+export interface DashboardInfo {
+  totalUsers: number;
+  sent: number;
+  approved: number;
+  rejected: number;
+}
+
 export interface AppState {
   loading: boolean;
   error: boolean;
@@ -75,6 +82,7 @@ export interface AppState {
   pagination: Pagination;
   lastAction: string;
   currentUserLeaveApplications: LeaveApplicationModel[];
+  dashBoardInfo: DashboardInfo;
 }
 
 export interface AppStateType {
@@ -139,6 +147,11 @@ export interface PrevPaginationActionType extends Action {
   type: "PREV PAGINATION";
 }
 
+export interface GetDashBoardInfoActionType extends Action {
+  type: "DASHBOARD DATA";
+  data: DashboardInfo;
+}
+
 export type AppAction =
   | AppStatusActionType
   | PageModalActionType
@@ -147,6 +160,7 @@ export type AppAction =
   | UserLogoutActionType
   | GetAllUsersActionType
   | LastActionType
+  | GetDashBoardInfoActionType
   | ResetStateActionType
   | GetLeaveApplicationsByUsersIdActionType
   | TabelPaginationActionType

@@ -14,6 +14,8 @@ import {
   LeaveApplicationModel,
   GetLeaveApplicationsByUsersIdActionType,
   ResetStateActionType,
+  DashboardInfo,
+  GetDashBoardInfoActionType,
 } from "../types";
 
 export function appStatusAction(
@@ -99,6 +101,15 @@ export function prevPaginationAction(): PrevPaginationActionType {
 export function ResetStateAction(): ResetStateActionType {
   return {
     type: "RESET",
+  };
+}
+
+export function GetDashBoardInfoAction(
+  data: DashboardInfo
+): GetDashBoardInfoActionType {
+  return {
+    type: "DASHBOARD DATA",
+    data: data,
   };
 }
 

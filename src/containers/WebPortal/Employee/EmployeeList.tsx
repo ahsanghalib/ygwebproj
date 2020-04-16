@@ -5,6 +5,7 @@ import { AppStateType } from "../../../types";
 import Paper from "@material-ui/core/Paper";
 import classes from "./Employee.module.scss";
 import Table from "@material-ui/core/Table";
+import Button from "@material-ui/core/Button";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -19,6 +20,7 @@ import DialogBox from "../../../components/DialogBox";
 
 interface Props {
   userAddEditForm: (edit: boolean, id: string | number) => void;
+  backButtonClick: () => void
 }
 
 function EmployeeList(props: Props) {
@@ -68,6 +70,7 @@ function EmployeeList(props: Props) {
           onCancel={() => setShowConfirm(false)}
           onOkay={deleteRecord}
         />
+
         <Table
           size="small"
           aria-label="employee list table"
@@ -140,7 +143,12 @@ function EmployeeList(props: Props) {
   return (
     <Paper className={classes.EmployeeList}>
       {store.loading ? <Loader /> : null}
-      <div className={classes.Header}>List of All Employees / Records</div>
+      <div className={classes.Header}>
+        <Button variant="contained" color="primary" style={{marginRight: '15px'}} onClick={props.backButtonClick}>
+          Go Back
+        </Button>
+        List of All Employees / Records
+      </div>
       {store.allUsers.length === 0 ? (
         <div className={classes.NoRecord}>
           No Employees Added. Please add new.

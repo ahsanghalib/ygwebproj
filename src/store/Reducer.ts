@@ -28,6 +28,12 @@ const initialState: AppState = {
   },
   lastAction: "",
   currentUserLeaveApplications: [],
+  dashBoardInfo: {
+    approved: 0,
+    rejected: 0,
+    sent: 0,
+    totalUsers: 0,
+  },
 };
 
 function Reducer(state = initialState, action: AppAction) {
@@ -80,6 +86,10 @@ function Reducer(state = initialState, action: AppAction) {
         draft.showPageModal = action.showPageModal;
         draft.pageModalType = action.pageModalType;
         draft.pageModalTitle = action.pageModalTitle;
+      });
+    case "DASHBOARD DATA":
+      return produce(state, (draft) => {
+        draft.dashBoardInfo = action.data;
       });
     case "NEXT PAGINATION":
       return produce(state, (draft) => {

@@ -9,6 +9,7 @@ import {
   lastAction,
   getLeaveApplicationsByUsersIdAction,
   ResetStateAction,
+  GetDashBoardInfoAction,
 } from "./Actions";
 import { axiosClient, axiosWithAuth } from "../helpers";
 
@@ -206,6 +207,26 @@ export function leaveApplicationsByUserId(userId: string): Effect {
       .get(`/getLeaveApplicationByUserId/${userId}`)
       .then((res) => {
         dispatch(getLeaveApplicationsByUsersIdAction(res.data.leaves));
+        dispatch(appStatusAction(false, false, ""));
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.data) {
+          dispatch(appStatusAction(false, true, err.response.data.error));
+        } else {
+          dispatch(appStatusAction(false, true, err.message));
+        }
+      });
+  };
+}
+
+export function dashBoardInfoGet(): Effect {
+  return function (dispatch) {
+    dispatch(appStatusAction(true, false, "Get Dashboard Inof"));
+    axiosWithAuth()
+      .get(`/dashBoardInfo`)
+      .then((res) => {
+        dispatch(GetDashBoardInfoAction(res.data));
         dispatch(appStatusAction(false, false, ""));
       })
       .catch((err) => {

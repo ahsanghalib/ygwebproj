@@ -27,85 +27,133 @@
     }
   }
 
-  .StatusDashboard {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 15px;
+  .LeaveAppStatus {
+    padding: 15px;
+    margin-top: 15px;
 
-    @media only screen and (max-width: 769px) {
-      grid-template-columns: 1fr;
+    .Head {
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+
+      @media only screen and (max-width: 426px) {
+        text-align: left;
+      }
     }
 
-    .LeaveAppStatus {
-      padding: 15px;
-      margin-top: 15px;
-      
-      .Head {
-        font-weight: 700;
-        text-align: center;
-        text-transform: uppercase;
+    .Status {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
 
-        @media only screen and (max-width: 426px) {
-          text-align: left;
-        }
+      @media only screen and (max-width: 426px) {
+        flex-direction: column;
       }
 
-      .Status {
+      .Counter {
         display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
+        margin-top: 15px;
+        align-items: center;
+        margin-right: 15px;
 
-        @media only screen and (max-width: 426px) {
-          flex-direction: column;
+        .Title {
+          font-weight: bold;
         }
 
-        .Counter {
+        .Count {
+          font-size: 1.5rem;
+          margin-right: 5px;
+          text-align: center;
+          font-weight: bold;
+
+          @media only screen and (max-width: 769px) {
+            font-size: 1rem;
+          }
+        }
+
+        .Sent {
           display: flex;
-          margin-top: 5px;
           align-items: center;
-          margin-right: 15px;
-
-          
-
-          .Title {
-            font-weight: bold;
-          }
-
-          .Count {
-            font-size: 1.5rem;
-            margin-right: 5px;
-            text-align: center;
-            font-weight: bold;
-
-            @media only screen and (max-width: 769px) {
-              font-size: 1rem;
-            }
-          }
-
-          .Sent {
-            display: flex;
-            align-items: center;
-            background-color: #ddd;
-            padding: 10px;
-            border-radius: 1rem;
-          }
-
-          .Approved {
-            display: flex;
-            align-items: center;
-            background-color: lightgreen;
-            padding: 10px;
-            border-radius: 1rem;
-          }
-
-          .Rejected {
-            display: flex;
-            align-items: center;
-            background-color: lightcoral;
-            padding: 10px;
-            border-radius: 1rem;
-          }
+          background-color: #ddd;
+          padding: 10px;
+          border-radius: 1rem;
+          box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+            0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 5px 0px rgba(0, 0, 0, 0.12);
         }
+
+        .Approved {
+          display: flex;
+          align-items: center;
+          background-color: lightgreen;
+          padding: 10px;
+          border-radius: 1rem;
+          box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+            0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        }
+
+        .Rejected {
+          display: flex;
+          align-items: center;
+          background-color: lightcoral;
+          padding: 10px;
+          border-radius: 1rem;
+          box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+            0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        }
+      }
+    }
+  }
+}
+
+.AdminDashboardMain {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 15px;
+
+  @media only screen and (max-width: 769px) {
+    grid-template-columns: 1fr;
+  }
+
+  .MenuItems {
+    padding: 15px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    button {
+      margin: 10px;
+    }
+
+    .Info {
+      display: flex;
+      justify-content: center;
+      font-size: 1.25rem;
+      background-color: #eee;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 1rem;
+      .Value {
+        margin-right: 5px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.UserDashboardMain {
+  .UserMenu {
+    padding: 15px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-evenly;
+
+    @media only screen and (max-width: 769px) {
+      flex-direction: column;
+      
+      button:first-child {
+        margin-bottom: 15px;
       }
     }
   }

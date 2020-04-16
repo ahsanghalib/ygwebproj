@@ -176,6 +176,32 @@ export class Controllers {
     }
   }
 
+  public async dashBoardInfo(req: exp.Request, res: exp.Response) {
+    try {
+      const collectionUser = db.collection("userRecords");
+      const collectionLeave = db.collection("leaveApplications");
+
+      const userRef = await collectionUser.get();
+      const leaveRef = await collectionLeave.get();
+
+      const totalUsers = userRef.docs.filter((d) => d.data().role !== "admin")
+        .length;
+
+      const sent = leaveRef.size;
+      const approved = leaveRef.docs.filter(
+        (d) => d.data().status === "approved"
+      ).length;
+      const rejected = leaveRef.docs.filter(
+        (d) => d.data().status === "rejected"
+      ).length;
+
+      res.status(200).json({ totalUsers, sent, approved, rejected });
+    } catch (err) {
+      res.status(500).json({ error: err });
+      return;
+    }
+  }
+
   public async listAllUsers(req: exp.Request, res: exp.Response) {
     try {
       const sortBy = req.query.sort ? req.query.sort : "fullName";
@@ -350,9 +376,24 @@ export class Controllers {
         return;
       }
 
+      const collectionLeaves = db.collection("leaveApplications");
+      const leavesRef = await collectionLeaves
+        .where("userId", "==", userId)
+        .get();
+
+      if (!leavesRef.empty) {
+        leavesRef.docs.map(async (d) => {
+          await collectionLeaves.doc(d.id).delete();
+        });
+      }
+
       await collection.doc(userId).delete();
 
-      res.status(200).json({ userId, message: "User Deleted" });
+      res.status(200).json({
+        userId,
+        message: "User Deleted",
+        leaves: leavesRef.size,
+      });
     } catch (err) {
       res.status(500).json({ error: err });
       return;
@@ -389,7 +430,7 @@ export class Controllers {
       const userId = req.params.id;
       const collection = db
         .collection("leaveApplications")
-        .orderBy("clientTime", "desc");
+        .orderBy("timestamp", "desc");
 
       const leaves = await collection.where("userId", "==", userId).get();
 
@@ -419,6 +460,40 @@ export class Controllers {
     }
   }
 
+  public async getAllLeaveApplications(req: exp.Request, res: exp.Response) {
+    try {
+      const collection = db
+        .collection("leaveApplications")
+        .orderBy("timestamp", "desc");
+
+      const leaves = await collection.get();
+
+      if (leaves.empty) {
+        res.status(200).json({ allLeaves: [] });
+        return;
+      }
+
+      const data = leaves.docs.map((d) => {
+        return {
+          id: d.id,
+          userId: d.data().userId,
+          status: d.data().status,
+          statusRemarks: d.data().statusRemarks,
+          leaveDays: d.data().leaveDays,
+          clientTime: d.data().clientTime,
+          startDate: d.data().startDate,
+          endDate: d.data().endDate,
+          reason: d.data().reason,
+        };
+      });
+
+      res.status(200).json({ allLeaves: data });
+    } catch (err) {
+      res.status(500).json({ error: err });
+      return;
+    }
+  }
+  
   public async addContact(req: exp.Request, res: exp.Response) {
     try {
       let data: ContactDto = req.body;

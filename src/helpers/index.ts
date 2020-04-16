@@ -296,7 +296,7 @@ export const leaveApplicationHtmlEmail = (
     <div>
         <div><b>Dates:</b></div>
         <div>${startDate} to ${endDate} [${days} ${
-    days > 0 ? "Days" : "Day"
+    days <= 1 ? "Days" : "Day"
   }]</div>
         <br />
     </div>
@@ -320,7 +320,7 @@ export const leaveApplicationTextEmail = (
 ) => {
   return `
         Full Name: ${fullName}  [${designation} - ${department}], 
-        Dates:${startDate} to ${endDate} [${days} ${days > 0 ? "Days" : "Day"}]
+        Dates:${startDate} to ${endDate} [${days} ${days <= 1 ? "Days" : "Day"}]
         Reason: ${reason},
      `;
 };
