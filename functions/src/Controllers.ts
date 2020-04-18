@@ -629,61 +629,46 @@ export class Controllers {
       const leaveRef = await leaveCollection.get();
       const userRef = await userCollection.get();
 
-      // let data = [
-      //   {
-      //     index: 0,
-      //     fullName: "",
-      //     email: "",
-      //     dateOfJoining: "",
-      //     department: "",
-      //     designation: "",
-      //     isActive: "",
-      //     role: "",
-      //     supervisorEmail: "",
-      //     status: "",
-      //     statusRemarks: "",
-      //     leaveDays: "",
-      //     startDate: "",
-      //     endDate: "",
-      //     reason: "",
-      //   },
-      // ];
-
-      if (leaveRef.empty) {
-        res.status(200).json({ message: "No Leave Data Found" });
-        return;
+      let data: any;
+      if (!leaveRef.empty) {
+        data = leaveRef.docs.map((leave, i) => {
+          const user = userRef.docs.find((u) => u.id === leave.data().userId);
+          if (user) {
+            return {
+              index: i + 1,
+              fullName: user.data().fullName,
+              email: user.data().email,
+              dateOfJoining: user.data().doj,
+              department: user.data().department,
+              designation: user.data().designation,
+              isActive: user.data().isActive,
+              role: user.data().role,
+              supervisorEmail: user.data().supervisorEmail.join(" - "),
+              status:
+                leave.data().status === "open"
+                  ? "pending"
+                  : leave.data().status,
+              statusRemarks: leave.data().statusRemarks,
+              leaveDays: leave.data().leaveDays,
+              startDate: leave.data().startDate,
+              endDate: leave.data().endDate,
+              reason: leave.data().reason,
+            };
+          } else {
+            return [
+              {
+                message: "No Data Found",
+              },
+            ];
+          }
+        });
+      } else {
+        data = [
+          {
+            message: "No Data Found",
+          },
+        ];
       }
-
-      if (userRef.empty) {
-        res.status(200).json({ message: "No User Data Found" });
-        return;
-      }
-
-      const data = leaveRef.docs.map((leave, i) => {
-        const user = userRef.docs.find((u) => u.id === leave.data().userId);
-        if (user) {
-          return {
-            index: i + 1,
-            fullName: user.data().fullName,
-            email: user.data().email,
-            dateOfJoining: user.data().doj,
-            department: user.data().department,
-            designation: user.data().designation,
-            isActive: user.data().isActive,
-            role: user.data().role,
-            supervisorEmail: user.data().supervisorEmail.join(" - "),
-            status:
-              leave.data().status === "open" ? "pending" : leave.data().status,
-            statusRemarks: leave.data().statusRemarks,
-            leaveDays: leave.data().leaveDays,
-            startDate: leave.data().startDate,
-            endDate: leave.data().endDate,
-            reason: leave.data().reason,
-          };
-        } else {
-          return user;
-        }
-      });
 
       res.setHeader("Content-Type", "text/csv");
       res.setHeader(
