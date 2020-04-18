@@ -296,7 +296,7 @@ export const leaveApplicationHtmlEmail = (
     <div>
         <div><b>Dates:</b></div>
         <div>${startDate} to ${endDate} [${days} ${
-    days <= 1 ? "Days" : "Day"
+    days <= 1 ? "Day" : "Days"
   }]</div>
         <br />
     </div>
@@ -320,7 +320,7 @@ export const leaveApplicationTextEmail = (
 ) => {
   return `
         Full Name: ${fullName}  [${designation} - ${department}], 
-        Dates:${startDate} to ${endDate} [${days} ${days <= 1 ? "Days" : "Day"}]
+        Dates:${startDate} to ${endDate} [${days} ${days <= 1 ? "Day" : "Days"}]
         Reason: ${reason},
      `;
 };
@@ -338,7 +338,7 @@ export const applicationBody = (
       name: sendName,
       email: sendEmail,
     },
-    to: [...toList, {email: sendEmail}],
+    to: [...toList, { email: sendEmail }],
     replyTo: {
       name: sendName,
       email: sendEmail,
@@ -347,4 +347,96 @@ export const applicationBody = (
     htmlContent: bodyHtml,
     textContent: bodyText,
   };
+};
+
+export const adminLeaveAppBody = (
+  sendName: string,
+  sendEmail: string,
+  to: { email: string, name: string },
+  subject: string,
+  bodyHtml: string,
+  bodyText: string
+) => {
+  return {
+    sender: {
+      name: sendName,
+      email: sendEmail,
+    },
+    to: [
+      {
+        name: to.name,
+        email: to.email,
+      },
+    ],
+    replyTo: {
+      name: sendName,
+      email: sendEmail,
+    },
+    subject: subject,
+    htmlContent: bodyHtml,
+    textContent: bodyText,
+  };
+};
+
+export const adminLeaveAppHTML = (
+  fullName: string,
+  department: string,
+  designation: string,
+  startDate: string,
+  endDate: string,
+  days: number,
+  reason: string,
+  status: string,
+  remarks: string
+) => {
+  return `
+<div>
+    <div>
+      <h2>Your Leave Application for ${days} ${
+    days <= 1 ? "Day" : "Days"
+  } has been ${status}.</h2>
+      <h3>Remarks: ${remarks}</div>
+    </div>
+    <hr />
+    <div>
+        <div><b>Name:</b></div>
+        <div>${fullName}  [${designation} - ${department}]</div>
+        <br />
+    </div>
+    <div>
+        <div><b>Dates:</b></div>
+        <div>${startDate} to ${endDate} [${days} ${
+    days <= 1 ? "Day" : "Days"
+  }]</div>
+        <br />
+    </div>
+    <div>
+        <div><b>Reason:</b></div>
+        <div>${reason}</div>
+        <br />
+    </div>
+</div>        
+     `;
+};
+
+export const adminLeaveAppText = (
+  fullName: string,
+  department: string,
+  designation: string,
+  startDate: string,
+  endDate: string,
+  days: number,
+  reason: string,
+  status: string,
+  remarks: string
+) => {
+  return `
+        Your Leave Application for ${days} ${
+    days <= 1 ? "Day" : "Days"
+  } has been ${status}
+        Remarks: ${remarks}
+        Full Name: ${fullName}  [${designation} - ${department}], 
+        Dates:${startDate} to ${endDate} [${days} ${days <= 1 ? "Day" : "Days"}]
+        Reason: ${reason},
+     `;
 };

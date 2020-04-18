@@ -16,6 +16,8 @@ import {
   ResetStateActionType,
   DashboardInfo,
   GetDashBoardInfoActionType,
+  GetAllLeaveApplicationsAdminActionType,
+  UserLeaveStats,
 } from "../types";
 
 export function appStatusAction(
@@ -119,5 +121,16 @@ export function getLeaveApplicationsByUsersIdAction(
   return {
     type: "GET LEAVE APPLICATIONS USER ID",
     data: data,
+  };
+}
+
+export function getAllLeaveApplicationsAdminAction(
+  data: LeaveApplicationModel[],
+  stats: UserLeaveStats
+): GetAllLeaveApplicationsAdminActionType {
+  return {
+    type: "LEAVE APPLICATIONS ADMIN",
+    data: data,
+    stats: stats,
   };
 }

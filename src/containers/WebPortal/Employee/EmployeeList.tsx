@@ -70,7 +70,6 @@ function EmployeeList(props: Props) {
           onCancel={() => setShowConfirm(false)}
           onOkay={deleteRecord}
         />
-
         <Table
           size="small"
           aria-label="employee list table"

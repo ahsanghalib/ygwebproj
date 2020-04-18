@@ -28,19 +28,19 @@ function Dashboard() {
   // don't delete
   useEffect(() => {
     if (store.currentUser.role === "user") {
-      setSentCount(store.currentUserLeaveApplications.length);
+      setSentCount(store.listLeaveApplications.length);
       setApprovedCount(
-        store.currentUserLeaveApplications.filter(
+        store.listLeaveApplications.filter(
           (d) => d.status === "approved"
         ).length
       );
       setRejectedCount(
-        store.currentUserLeaveApplications.filter(
+        store.listLeaveApplications.filter(
           (d) => d.status === "rejected"
         ).length
       );
     }
-  }, [store.currentUser.role, store.currentUserLeaveApplications]);
+  }, [store.currentUser.role, store.listLeaveApplications]);
 
   // don't delete
   useEffect(() => {

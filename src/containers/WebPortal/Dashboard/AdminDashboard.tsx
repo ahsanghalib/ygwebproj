@@ -8,6 +8,9 @@ import AppStatusBar from "./AppStatusBar";
 import UserForm from "../Employee/UserForm";
 import { dashBoardInfoGet } from "../../../store/Effects";
 import EmployeeList from "../Employee/EmployeeList";
+import AdminLeaveReport from "../LeaveForm/AdminLeaveReport";
+import { appStatusAction } from "../../../store/Actions";
+import { axiosWithAuth } from "../../../helpers";
 
 interface Props {
   sentCounter: number;
@@ -22,10 +25,14 @@ function AdminDashboard(props: Props) {
   );
   const dispatch = useDispatch();
 
-  const [addEmployeeForm, setAddEmployeeForm] = useState<boolean>(false);
-  const [showEmployeeList, setShowEmployeeList] = useState<boolean>(false);
   const [editForm, setEditForm] = useState<boolean>(false);
   const [editId, setEditId] = useState<string | number>(0);
+  const [addEmployeeForm, setAddEmployeeForm] = useState<boolean>(false);
+  const [showEmployeeList, setShowEmployeeList] = useState<boolean>(false);
+  const [showLeaveReport, setShowLeaveReport] = useState<{
+    show: boolean;
+    status: string;
+  }>({ show: false, status: "all" });
 
   useEffect(() => {
     if (!addEmployeeForm) {
@@ -43,6 +50,40 @@ function AdminDashboard(props: Props) {
     setAddEmployeeForm(!addEmployeeForm);
     setEditForm(edit);
     setEditId(id);
+  };
+
+  const donwloadData = async () => {
+    try {
+      dispatch(appStatusAction(true, false, ""));
+      await axiosWithAuth()
+        .get("/downloadData", { responseType: "blob" })
+        .then((res) => {
+          // trick to download file from axios
+          const downloadUrl = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = downloadUrl;
+          link.setAttribute("download", `webportal-data-${Date.now()}.csv`); //any other extension
+          document.body.appendChild(link);
+          link.click();
+          dispatch(appStatusAction(false, false, ""));
+          link.remove();
+        })
+        .catch((err) => {
+          if (err.response.data.error) {
+            dispatch(appStatusAction(false, true, err.response.data.error));
+          } else {
+            dispatch(appStatusAction(false, true, err.message));
+          }
+        });
+    } catch (err) {
+      dispatch(
+        appStatusAction(
+          false,
+          true,
+          "Sorry, Something went wrong, please call us or retry."
+        )
+      );
+    }
   };
 
   const dashboard = () => {
@@ -71,6 +112,7 @@ function AdminDashboard(props: Props) {
                 variant="contained"
                 color="primary"
                 onClick={() => setAddEmployeeForm(true)}
+                disableElevation={true}
               >
                 Add Employee
               </Button>
@@ -78,6 +120,7 @@ function AdminDashboard(props: Props) {
                 variant="contained"
                 color="primary"
                 onClick={() => setShowEmployeeList(true)}
+                disableElevation={true}
               >
                 Employees List
               </Button>
@@ -85,14 +128,57 @@ function AdminDashboard(props: Props) {
           </div>
           <div>
             <Paper className={classes.MenuItems}>
-              <Button variant="contained" color="secondary">
-                Approve / Reject Applications
+              <Button
+                variant="contained"
+                color="secondary"
+                disableElevation={true}
+                onClick={() =>
+                  setShowLeaveReport({ show: true, status: "open" })
+                }
+              >
+                Pending (
+                {props.sentCounter -
+                  (props.approvedCounter + props.rejectedCounter)}
+                ) Applications
               </Button>
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation={true}
+                onClick={() =>
+                  setShowLeaveReport({ show: true, status: "all" })
+                }
+              >
                 All Leave Applications
               </Button>
-              <Button variant="contained" color="primary">
-                Leave Applications By Employee
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation={true}
+                onClick={() =>
+                  setShowLeaveReport({ show: true, status: "approved" })
+                }
+              >
+                Approved Applications
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation={true}
+                onClick={() =>
+                  setShowLeaveReport({ show: true, status: "rejected" })
+                }
+              >
+                Rejected Applications
+              </Button>
+
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation={true}
+                onClick={() => donwloadData()}
+              >
+                Download All Data
               </Button>
             </Paper>
           </div>
@@ -111,6 +197,11 @@ function AdminDashboard(props: Props) {
     <EmployeeList
       userAddEditForm={userAddEditForm}
       backButtonClick={() => setShowEmployeeList(false)}
+    />
+  ) : showLeaveReport.show ? (
+    <AdminLeaveReport
+      backButtonClick={() => setShowLeaveReport({ show: false, status: "all" })}
+      status={showLeaveReport.status}
     />
   ) : (
     dashboard()

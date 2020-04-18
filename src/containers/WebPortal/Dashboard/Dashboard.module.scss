@@ -151,10 +151,16 @@
 
     @media only screen and (max-width: 769px) {
       flex-direction: column;
-      
+
       button:first-child {
         margin-bottom: 15px;
       }
     }
+  }
+
+  .Header {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    text-align: center;
   }
 }

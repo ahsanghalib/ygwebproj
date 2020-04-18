@@ -4,7 +4,7 @@ import classes from "./Dashboard.module.scss";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Policy from "../../../components/Policy/Policy";
-import UserLeaveAppList from "../LeaveForm/UserLeaveAppList";
+import LeaveList from "../LeaveForm/LeaveList";
 import LeaveForm from "../LeaveForm/LeaveForm";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { getEmployee, leaveApplicationsByUserId } from "../../../store/Effects";
@@ -63,7 +63,8 @@ function UserDashboard(props: Props) {
             Edit Profile / Change Password
           </Button>
         </Paper>
-        <UserLeaveAppList />
+        <div className={classes.Header}>Leave Applications</div>
+        <LeaveList leaveData={store.listLeaveApplications} />
         <Policy />
       </div>
     );

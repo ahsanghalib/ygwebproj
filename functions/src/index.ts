@@ -80,6 +80,20 @@ routes.get(
 );
 
 routes.post(
+  "/editLeaveApplication/:id",
+  checkApiKey,
+  isAuth,
+  controllers.editLeaveApplication
+);
+
+routes.delete(
+  "/deleteLeaveApplication/:id",
+  checkApiKey,
+  isAuth,
+  controllers.deleteLeaveApplication
+);
+
+routes.post(
   "/contact",
   checkApiKey,
   validationMiddleware(ContactDto),
@@ -92,6 +106,8 @@ routes.post(
   validationMiddleware(CareerDto),
   controllers.addCareer
 );
+
+routes.get('/downloadData', checkApiKey, isAuth, controllers.downloadData)
 
 app.use(routes);
 

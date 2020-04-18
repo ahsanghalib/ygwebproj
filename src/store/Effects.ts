@@ -10,6 +10,7 @@ import {
   getLeaveApplicationsByUsersIdAction,
   ResetStateAction,
   GetDashBoardInfoAction,
+  getAllLeaveApplicationsAdminAction,
 } from "./Actions";
 import { axiosClient, axiosWithAuth } from "../helpers";
 
@@ -231,6 +232,59 @@ export function dashBoardInfoGet(): Effect {
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.data) {
+          dispatch(appStatusAction(false, true, err.response.data.error));
+        } else {
+          dispatch(appStatusAction(false, true, err.message));
+        }
+      });
+  };
+}
+
+export function getAllLeaveApplicationsAdmin(
+  userId: string,
+  status: string
+): Effect {
+  return function (dispatch) {
+    dispatch(appStatusAction(true, false, "Getting data... "));
+    axiosWithAuth()
+      .get(`/getAllLeaveApplications?empId=${userId}&status=${status}`)
+      .then((res) => {
+        dispatch(
+          getAllLeaveApplicationsAdminAction(res.data.allLeaves, {
+            leaves: res.data.leaveStats,
+            days: res.data.dayStats,
+          })
+        );
+        dispatch(appStatusAction(false, false, ""));
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.data) {
+          dispatch(appStatusAction(false, true, err.response.data.error));
+        } else {
+          dispatch(appStatusAction(false, true, err.message));
+        }
+      });
+  };
+}
+
+export function deleteLeaveApplication(
+  leaveId: string,
+  userId: string,
+  status: string
+): Effect {
+  return function (dispatch) {
+    dispatch(appStatusAction(true, false, "Deleting Employee"));
+    axiosWithAuth()
+      .delete(`/deleteLeaveApplication/${leaveId}`)
+      .then((res) => {
+        dispatch(getAllLeaveApplicationsAdmin(userId, status));
+        dispatch(dashBoardInfoGet());
+        dispatch(appStatusAction(false, false, ""));
+        dispatch(lastAction(res.data.message));
+      })
+      .catch((err) => {
         if (err.response.data) {
           dispatch(appStatusAction(false, true, err.response.data.error));
         } else {

@@ -1,0 +1,212 @@
+.Application {
+  padding: 15px;
+  margin-top: 15px;
+
+  .Header {
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 25px;
+    .DatesField {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 25px;
+    }
+  }
+}
+
+.LeaveAppList {
+  margin-top: 15px;
+
+  .Header {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
+
+.LeaveCard {
+  padding: 15px;
+  margin-top: 15px;
+
+  .EmployeeInfo {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ccc;
+    background-color: #eee;
+
+    .Block {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  .Row1 {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .Block {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  .Row3 {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    margin-bottom: 15px;
+    column-gap: 25px;
+    row-gap: 15px;
+
+    @media only screen and (max-width: 426px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .Buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 25px;
+  }
+
+  .Data {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+
+  .Title {
+    font-style: italic;
+  }
+}
+
+.LeaveReport {
+  .Header {
+    font-size: 1.25rem;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .Filters {
+    display: grid;
+    grid-template-columns: 5fr 5fr 1fr;
+    column-gap: 15px;
+    margin-bottom: 15px;
+
+    @media only screen and (max-width: 769px) {
+      grid-template-columns: 3fr 3fr 1fr;
+    }
+
+    @media only screen and (max-width: 426px) {
+      grid-template-columns: 1fr;
+      row-gap: 15px;
+    }
+
+    .Column {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      
+      .Label {
+        margin-right: 15px;
+      }
+
+      .Input {
+        display: flex;
+      }
+    }
+  }
+
+  .Stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+
+    @media only screen and (max-width: 769px) {
+      grid-template-columns: 1fr;
+      row-gap: 15px;
+    }
+    .Data {
+      padding: 5px 15px;
+      display: flex;
+      align-items: center;
+      @media only screen and (max-width: 426px) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .DataHead {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-right: 15px;
+        text-transform: capitalize;
+      }
+
+      .Counts {
+        display: flex;
+        align-items: center;
+        @media only screen and (max-width: 426px) {
+          flex-direction: column;
+          margin-bottom: 15px;
+          align-items: flex-start;
+        }
+        .Head {
+          margin-right: 15px;
+          background-color: #eee;
+          padding: 5px;
+
+          @media only screen and (max-width: 426px) {
+            background-color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.AdminLeaveForm {
+  padding: 15px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+
+  .FormHeader {
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+
+    .FormStatus {
+      padding: 15px;
+      font-weight: bold;
+    }
+  }
+
+  div {
+    display: flex;
+
+    .Title {
+      margin-right: 15px;
+    }
+
+    .Data {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  }
+
+  .BtnGroup {
+    margin-top: 15px;
+  }
+}

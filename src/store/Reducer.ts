@@ -27,12 +27,24 @@ const initialState: AppState = {
     total: 0,
   },
   lastAction: "",
-  currentUserLeaveApplications: [],
+  listLeaveApplications: [],
   dashBoardInfo: {
     approved: 0,
     rejected: 0,
     sent: 0,
     totalUsers: 0,
+  },
+  userLeaveStats: {
+    days: {
+      applied: 0,
+      approved: 0,
+      rejected: 0,
+    },
+    leaves: {
+      approved: 0,
+      rejected: 0,
+      sent: 0,
+    },
   },
 };
 
@@ -77,7 +89,7 @@ function Reducer(state = initialState, action: AppAction) {
       });
     case "GET LEAVE APPLICATIONS USER ID":
       return produce(state, (draft) => {
-        draft.currentUserLeaveApplications = action.data;
+        draft.listLeaveApplications = action.data;
       });
     case "PAGE MODAL":
       return produce(state, (draft) => {
@@ -98,6 +110,11 @@ function Reducer(state = initialState, action: AppAction) {
     case "PREV PAGINATION":
       return produce(state, (draft) => {
         draft.pageIndex -= 1;
+      });
+    case "LEAVE APPLICATIONS ADMIN":
+      return produce(state, (draft) => {
+        draft.listLeaveApplications = action.data;
+        draft.userLeaveStats = action.stats;
       });
     case "RESET":
       return (state = initialState);

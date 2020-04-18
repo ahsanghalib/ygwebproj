@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import differenceInDays from "date-fns/differenceInDays";
-import classes from "./LeaveForm.module.scss";
+import classes from "./Leave.module.scss";
 import * as yup from "yup";
 import { LeaveApplication, AppStateType } from "../../../types";
 import FormRender, { FormErrors } from "../../../hoc/FormRender";
@@ -72,7 +72,7 @@ function LeaveForm(props: Props) {
             store.currentUser.fullName,
             store.currentUser.email,
             emailList,
-            `(Leave Application) - ${store.currentUser.fullName}`,
+            `(Leave Application [${days} Day(s)]) - ${store.currentUser.fullName}`,
             leaveApplicationHtmlEmail(
               store.currentUser.fullName,
               store.currentUser.designation,
@@ -100,7 +100,7 @@ function LeaveForm(props: Props) {
 
       const record = {
         userId: store.currentUser.id,
-        emailSentId: emailId.data.messageId, //emailId.data.messageId,
+        emailSentId: emailId.data.messageId,
         endDate: values.endDate,
         reason: values.reason,
         startDate: values.startDate,
@@ -211,6 +211,7 @@ function LeaveForm(props: Props) {
                     label={"Start Date"}
                     name={"startDate"}
                     id={"startDate"}
+                    allowKeyboardControl={true}
                     value={bag.values.startDate}
                     onChange={handleStartDateChange}
                     helperText={
@@ -220,6 +221,7 @@ function LeaveForm(props: Props) {
                   />
                   <DatePicker
                     showTodayButton={true}
+                    allowKeyboardControl={true}
                     openTo="date"
                     disablePast={true}
                     label={"End Date"}
@@ -252,6 +254,7 @@ function LeaveForm(props: Props) {
                 error={bag.errors.reason !== ""}
                 helperText={bag.errors.reason !== "" ? bag.errors.reason : " "}
               />
+
               <ButtonGroup className={classes.BtnGroup}>
                 <Button
                   type={"submit"}

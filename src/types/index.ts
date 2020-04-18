@@ -34,6 +34,7 @@ export interface LeaveApplicationModel extends LeaveApplication {
   statusRemarks: string;
   leaveDays: number;
   clientTime: string;
+  timestamp: string;
 }
 
 // App store types
@@ -68,6 +69,19 @@ export interface DashboardInfo {
   rejected: number;
 }
 
+export interface UserLeaveStats {
+  leaves: {
+    sent: number;
+    approved: number;
+    rejected: number;
+  };
+  days: {
+    applied: number;
+    approved: number;
+    rejected: number;
+  };
+}
+
 export interface AppState {
   loading: boolean;
   error: boolean;
@@ -81,8 +95,9 @@ export interface AppState {
   allUsers: UserState[];
   pagination: Pagination;
   lastAction: string;
-  currentUserLeaveApplications: LeaveApplicationModel[];
+  listLeaveApplications: LeaveApplicationModel[];
   dashBoardInfo: DashboardInfo;
+  userLeaveStats: UserLeaveStats;
 }
 
 export interface AppStateType {
@@ -120,6 +135,12 @@ export interface GetLeaveApplicationsByUsersIdActionType extends Action {
   data: LeaveApplicationModel[];
 }
 
+export interface GetAllLeaveApplicationsAdminActionType extends Action {
+  type: "LEAVE APPLICATIONS ADMIN";
+  data: LeaveApplicationModel[];
+  stats: UserLeaveStats;
+}
+
 export interface LastActionType extends Action {
   type: "LAST ACTION";
   data: string;
@@ -154,6 +175,7 @@ export interface GetDashBoardInfoActionType extends Action {
 
 export type AppAction =
   | AppStatusActionType
+  | GetAllLeaveApplicationsAdminActionType
   | PageModalActionType
   | NextPaginationActionType
   | UserLoginActionType
