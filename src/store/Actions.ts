@@ -18,6 +18,11 @@ import {
   GetDashBoardInfoActionType,
   GetAllLeaveApplicationsAdminActionType,
   UserLeaveStats,
+  GetHomePageDataActionType,
+  IValueData,
+  IHistoryData,
+  IBusinessData,
+  IManagementData,
 } from "../types";
 
 export function appStatusAction(
@@ -132,5 +137,20 @@ export function getAllLeaveApplicationsAdminAction(
     type: "LEAVE APPLICATIONS ADMIN",
     data: data,
     stats: stats,
+  };
+}
+
+export function getHomePageDataAction(
+  bData: IBusinessData[],
+  mData: IManagementData[],
+  vData: IValueData[],
+  history: IHistoryData
+): GetHomePageDataActionType {
+  return {
+    type: "HOME PAGE DATA",
+    businessData: bData,
+    managementData: mData,
+    valueData: vData,
+    historyData: history,
   };
 }

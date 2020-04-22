@@ -46,6 +46,13 @@ const initialState: AppState = {
       sent: 0,
     },
   },
+  businessData: [],
+  managementData: [],
+  historyData: {
+    data: "",
+    title: "",
+  },
+  valuesData: [],
 };
 
 function Reducer(state = initialState, action: AppAction) {
@@ -115,6 +122,13 @@ function Reducer(state = initialState, action: AppAction) {
       return produce(state, (draft) => {
         draft.listLeaveApplications = action.data;
         draft.userLeaveStats = action.stats;
+      });
+    case "HOME PAGE DATA":
+      return produce(state, (draft) => {
+        draft.businessData = action.businessData;
+        draft.managementData = action.managementData;
+        draft.valuesData = action.valueData;
+        draft.historyData = action.historyData;
       });
     case "RESET":
       return (state = initialState);

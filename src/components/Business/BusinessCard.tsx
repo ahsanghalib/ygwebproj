@@ -20,7 +20,7 @@ function BusinessCard(props: BusinessCardProps) {
                 <Image src={props.logoUrl} alt={props.imgAlt}/>
             </div>
             <div className={classes.Details}>
-                <div className={classes.Title}>{props.title}</div>
+                <div className={classes.Title}><b>{props.title}</b></div>
                 <div className={classes.Slog}>{props.slog}</div>
             </div>
         </div>

@@ -82,6 +82,34 @@ export interface UserLeaveStats {
   };
 }
 
+export interface IBusinessData {
+  id: string;
+  detail: string;
+  imgAlt: string;
+  logoUrl: string;
+  slog: string;
+  title: string;
+}
+
+export interface IManagementData {
+  designation: string;
+  full: string;
+  id: string;
+  img: string;
+  name: string;
+  quote: string;
+}
+
+export interface IValueData {
+  desc: string;
+  title: string;
+}
+
+export interface IHistoryData {
+  title: string;
+  data: string;
+}
+
 export interface AppState {
   loading: boolean;
   error: boolean;
@@ -98,6 +126,10 @@ export interface AppState {
   listLeaveApplications: LeaveApplicationModel[];
   dashBoardInfo: DashboardInfo;
   userLeaveStats: UserLeaveStats;
+  businessData: IBusinessData[];
+  managementData: IManagementData[];
+  valuesData: IValueData[];
+  historyData: IHistoryData;
 }
 
 export interface AppStateType {
@@ -173,9 +205,18 @@ export interface GetDashBoardInfoActionType extends Action {
   data: DashboardInfo;
 }
 
+export interface GetHomePageDataActionType extends Action {
+  type: "HOME PAGE DATA";
+  businessData: IBusinessData[];
+  managementData: IManagementData[];
+  valueData: IValueData[];
+  historyData: IHistoryData;
+}
+
 export type AppAction =
   | AppStatusActionType
   | GetAllLeaveApplicationsAdminActionType
+  | GetHomePageDataActionType
   | PageModalActionType
   | NextPaginationActionType
   | UserLoginActionType

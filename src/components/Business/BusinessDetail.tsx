@@ -1,5 +1,4 @@
 import React from 'react';
-import {businessData} from '../../data'
 import classes from './Business.module.scss';
 import Image from '../Image'
 import {shallowEqual, useSelector} from 'react-redux'
@@ -10,7 +9,7 @@ function BusinessDetail() {
 
     const store = useSelector((state: AppStateType) => state.mainStore, shallowEqual)
 
-    const business = businessData[store.pageIndex]
+    const business = store.businessData[store.pageIndex]
 
     return (
         <div className={classes.BusinessDetail}>

@@ -106,7 +106,7 @@ const Contact: React.FC = (props) => {
         })
         .then((res) => console.log(res.data))
         .catch((err) => {
-          console.log(err.response.data);
+          console.log(err);
           throw new Error(err.response.data);
         });
 

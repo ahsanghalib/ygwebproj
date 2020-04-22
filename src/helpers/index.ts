@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 
 const BASE_URL =
   window.location.hostname === "localhost"
-    ? process.env.REACT_APP_EMU_API
-    : process.env.REACT_APP_API_URL;
+    ? process.env.REACT_APP_EMU_API_FIREBASE
+    : process.env.REACT_APP_API_URL_FIREBASE;
 
 // const BASE_URL = process.env.REACT_APP_API_URL
 
@@ -38,10 +38,10 @@ export function axiosClient() {
     headers: {
       "Content-Type": "application/json",
       // eslint-disable-next-line no-useless-concat
-      Authorization:
-        "Barear " +
-        "b " +
-        "$2a$12$2nEhn.w/tpRO8LzX1D7bueNu05.WxZlS6hpBR8AkofGton7R1KWiO",
+      // Authorization:
+      //   "Barear " +
+      //   "b " +
+      //   "$2a$12$2nEhn.w/tpRO8LzX1D7bueNu05.WxZlS6hpBR8AkofGton7R1KWiO",
     },
   };
   // Create instance
@@ -352,7 +352,7 @@ export const applicationBody = (
 export const adminLeaveAppBody = (
   sendName: string,
   sendEmail: string,
-  to: { email: string, name: string },
+  to: { email: string; name: string },
   subject: string,
   bodyHtml: string,
   bodyText: string
