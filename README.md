@@ -6,5 +6,4 @@ Tech Stack:
 
 Live at yaqoobgroup.com / ygwebproj.web.app
 
-Web Portals Page is under construction. 
 
