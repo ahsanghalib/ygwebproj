@@ -11,7 +11,9 @@ function Header() {
         <div className={classes.Header}>
             <div className={classes.HeaderContainer}>
                 <Link to="/" className={classes.MainLogo}>
-                    <MainLogo type={"color"}/>
+                    <div>
+                        <MainLogo type={"color"}/>
+                    </div>
                 </Link>
                 <div className={classes.SocialMediaIcons}>
                     <SocialMediaIcon iconSize={"25"}/>

@@ -1,5 +1,6 @@
 import produce from "immer";
 import { AppAction, AppState, PageModelEnum } from "../types";
+import { DefaultToEmail } from "../types";
 
 const initialState: AppState = {
   pageIndex: 0,
@@ -53,6 +54,8 @@ const initialState: AppState = {
     title: "",
   },
   valuesData: [],
+  backend: "firebase",
+  formEmailTo: DefaultToEmail,
 };
 
 function Reducer(state = initialState, action: AppAction) {
@@ -129,6 +132,8 @@ function Reducer(state = initialState, action: AppAction) {
         draft.managementData = action.managementData;
         draft.valuesData = action.valueData;
         draft.historyData = action.historyData;
+        draft.backend = action.backend;
+        draft.formEmailTo = action.formEmailTo;
       });
     case "RESET":
       return (state = initialState);

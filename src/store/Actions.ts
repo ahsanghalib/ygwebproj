@@ -23,6 +23,7 @@ import {
   IHistoryData,
   IBusinessData,
   IManagementData,
+  IToEmail,
 } from "../types";
 
 export function appStatusAction(
@@ -144,7 +145,9 @@ export function getHomePageDataAction(
   bData: IBusinessData[],
   mData: IManagementData[],
   vData: IValueData[],
-  history: IHistoryData
+  history: IHistoryData,
+  backend: string,
+  toEmail: IToEmail[]
 ): GetHomePageDataActionType {
   return {
     type: "HOME PAGE DATA",
@@ -152,5 +155,7 @@ export function getHomePageDataAction(
     managementData: mData,
     valueData: vData,
     historyData: history,
+    backend: backend,
+    formEmailTo: toEmail
   };
 }

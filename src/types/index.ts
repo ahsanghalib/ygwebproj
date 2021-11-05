@@ -110,6 +110,11 @@ export interface IHistoryData {
   data: string;
 }
 
+export interface IToEmail {
+  name: string;
+  email: string;
+}
+
 export interface AppState {
   loading: boolean;
   error: boolean;
@@ -130,6 +135,8 @@ export interface AppState {
   managementData: IManagementData[];
   valuesData: IValueData[];
   historyData: IHistoryData;
+  backend: string;
+  formEmailTo: IToEmail[];
 }
 
 export interface AppStateType {
@@ -211,6 +218,8 @@ export interface GetHomePageDataActionType extends Action {
   managementData: IManagementData[];
   valueData: IValueData[];
   historyData: IHistoryData;
+  backend: string;
+  formEmailTo: IToEmail[];
 }
 
 export type AppAction =
@@ -228,3 +237,10 @@ export type AppAction =
   | GetLeaveApplicationsByUsersIdActionType
   | TabelPaginationActionType
   | PrevPaginationActionType;
+
+export const DefaultToEmail: IToEmail[] = [
+  {
+    email: "yaqoobgroupweb@gmail.com",
+    name: "Yaqoob Group Web",
+  },
+];

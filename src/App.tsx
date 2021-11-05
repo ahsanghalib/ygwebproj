@@ -5,7 +5,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { BounceLoader } from "react-spinners";
 import PageModal from "./components/PageModal/PageModal";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import { AppStateType } from "./types";
+import { AppStateType, DefaultToEmail } from "./types";
 import CSSTransition from "react-transition-group/CSSTransition";
 import axios from "axios";
 import { getHomePageDataAction } from "./store/Actions";
@@ -77,7 +77,9 @@ function App() {
             res.data.valuesData ? res.data.valuesData : [],
             res.data.historyData
               ? res.data.historyData
-              : { data: "", title: "" }
+              : { data: "", title: "" },
+            res.data.backend ? res.data.backend : "firebase",
+            res.data.toEmailList ? res.data.toEmailList : DefaultToEmail
           )
         )
       )

@@ -16,6 +16,7 @@ function Image(props: ImageProps) {
             alt={props.alt}
             loader={<div/>}
             unloader={<div><img src={imageNotFound} alt={"Not Found"}/></div>}
+            style={{width: '100%', height: '100%'}}
         />
     )
 }

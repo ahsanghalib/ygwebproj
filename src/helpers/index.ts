@@ -1,17 +1,26 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { store } from "../store/ConfigStore";
 
-const BASE_URL =
-  window.location.hostname === "localhost"
-    ? process.env.REACT_APP_EMU_API_FIREBASE
-    : process.env.REACT_APP_API_URL_FIREBASE;
+const FIREBASE_LOCAL_API = "http://localhost:5001/ygwebproj/us-central1/api";
+const FIREBASE_API = "https://us-central1-ygwebproj.cloudfunctions.net/api";
+const NOW_LOCAL_API = "http://localhost:5000/api";
+const NOW_API = "https://ygweb-zeitnow.now.sh/api";
 
-// const BASE_URL = process.env.REACT_APP_API_URL
+const BASE_URL = (): string => {
+  if (store.getState().mainStore.backend === "now") {
+    return window.location.hostname === "localhost" ? NOW_LOCAL_API : NOW_API;
+  } else {
+    return window.location.hostname === "localhost"
+      ? FIREBASE_LOCAL_API
+      : FIREBASE_API;
+  }
+};
 
 export const ASSETS_URL = process.env.REACT_APP_GITHUB_ASSETS_URL;
 
 export function axiosWithAuth() {
   let defaultOptions: AxiosRequestConfig = {
-    baseURL: BASE_URL,
+    baseURL: BASE_URL(),
     headers: {
       "Content-Type": "application/json",
     },
@@ -34,7 +43,7 @@ export function axiosWithAuth() {
 
 export function axiosClient() {
   let defaultOptions: AxiosRequestConfig = {
-    baseURL: BASE_URL,
+    baseURL: BASE_URL(),
     headers: {
       "Content-Type": "application/json",
       // eslint-disable-next-line no-useless-concat
@@ -73,12 +82,7 @@ export const body = (
       name: sendName,
       email: sendEmail,
     },
-    to: [
-      {
-        name: process.env.REACT_APP_TO_EMAIL_1_NAME,
-        email: process.env.REACT_APP_TO_EMAIL_1_EMAIL,
-      },
-    ],
+    to: store.getState().mainStore.formEmailTo,
     replyTo: {
       name: sendName,
       email: sendEmail,
